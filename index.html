@@ -33,7 +33,12 @@
     <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
     <span x-text="currentRoom?.title"></span>
   </div>
+  <hr/>
   <div>
+    <input id="saveFiles" type="checkbox" x-model="settings.downloadFiles" />
+    <label for="saveFiles">Download files</label>
+    <input id="savePeople" type="checkbox" x-model="settings.downloadPeople" />
+      <label for="savePeople">Download people</label>
       <button @click="downloadRoom()" :disabled="busy || !roomId">Download room</button>
   </div>
 

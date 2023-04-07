@@ -37,8 +37,8 @@ const model = {
   busy: false,
   settings: {
     maxFileSize: 10_000_000,
-    downloadFiles: true,
-    downloadPeople: true,
+    downloadFiles: false,
+    downloadPeople: false,
   },
   downloader: null,
 
