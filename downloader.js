@@ -5,6 +5,10 @@ async function saveFile(folder, name, content) {
   stream.close();
 }
 
+function createFolder(parent, name) {
+  return parent.getDirectoryHandle(name, { create: true });
+}
+
 function sleep(ms) {
   return new Promise(res => setTimeout(res, ms));
 }
@@ -12,6 +16,11 @@ function sleep(ms) {
 function makeJsFile(variable, object) {
   const json = JSON.stringify(object, null, 2);
   return `const ${variable} = ${json}`;
+}
+
+async function copyUrlToFile(url, folder, file) {
+  const text = await (await fetch(url)).text();
+  await saveFile(folder, file, text);
 }
 
 class Downloader {
@@ -42,16 +51,18 @@ class Downloader {
     const folderName = this.safeFileName(roomName);
 
     try {
-      const folder = await root.getDirectoryHandle(folderName, { create: true });
+      const folder = await createFolder(root, folderName);
 
       if (settings.downloadFiles) {
-        await this.saveFiles(folder, conversations, settings);
+        const filesFolder = await createFolder(folder, 'files');
+        await this.saveFiles(filesFolder, conversations, settings);
       }
 
       let people = null;
       if (settings.downloadPeople) {
+        const peopleFolder = await createFolder(folder, 'people');
         people = await this.fetchPeople(conversations);
-        await this.saveAvatars(folder, people);
+        await this.saveAvatars(peopleFolder, people);
       }
 
       const meta = {
@@ -64,11 +75,14 @@ class Downloader {
         people,
       };
 
+      const assets = await createFolder(folder, 'assets');
       const content = makeJsFile('data', data);
-      await saveFile(folder, 'data.js', content);
+      await saveFile(assets, 'data.js', content);
+      await copyUrlToFile('./style.css', assets, 'style.css');
+      await copyUrlToFile('./reader.html', folder, 'index.html');
     }
     catch(e) {
-      console.log(e);
+      console.warn(e);
     }
   }
 

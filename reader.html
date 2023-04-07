@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<!-- This file is copied into each archive folder and can be used as a standalone, offline
+web page to view archived rooms. -->
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Archiver</title>
+  <link rel="stylesheet" href="./assets/style.css"></link>
+  <script defer src="./assets/data.js"></script>
+  <script>
+    const model = {
+      data: null,
+      init() {
+        this.data = data;
+      },
+      avatar(email) {
+        return './people/' + email + '.jpg';
+      },
+      name(email) {
+        return this.data.people?.find(d => d.emails[0] === email)?.displayName || email;
+      },
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body
+  x-cloak
+  x-data="model"
+>
+
+<section>
+  Conversations in the room
+  <template x-for="conversation in data.conversations">
+    <div class="conversation">
+      <template x-for="message, i in conversation">
+        <div class="message">
+          <div class="header">
+            <img :src="avatar(message.personEmail)" class="avatar" :title="message.personEmail"/>
+            <div x-text="name(message.personEmail)"></div>
+          </div>
+          <div x-html="message.html || message.text || ''" class="text"></div>
+          <div x-text="'🔗 Contains a file'" x-show="message.files?.length"></div>
+        </div>
+      </template>
+    </div>
+  </template>
+</section>
+
+</body>
+
+</html>

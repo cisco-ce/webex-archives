@@ -72,3 +72,37 @@ button {
 .message {
   margin-left: 2em;
 }
+
+.message .header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.message .text {
+  margin-left: 32px;
+}
+
+.avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
+
+/* only applied if image is broken. css hack */
+.avatar:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  border-radius: 25px;
+  background-color: #c6a7c6;
+}
+
+pre {
+  overflow-x: auto;
+}
