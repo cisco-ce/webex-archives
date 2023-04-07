@@ -39,6 +39,11 @@ function getRoomDetails(token, roomId) {
   return webex(url, token);
 }
 
+function getPerson(token, id) {
+  const url = `${apiUrl}people/${id}`;
+  return webex(url, token);
+}
+
 function getRooms(token) {
   const url = `${apiUrl}rooms?max=1000`;
   return webex(url, token);

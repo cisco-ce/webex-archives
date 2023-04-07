@@ -1,4 +1,8 @@
-const maxFileSize = 10_000_000;
+
+
+function sleep(ms) {
+  return new Promise(res => setTimeout(res, ms));
+}
 
 function groupMessages(list) {
   const conversations = {};
@@ -35,8 +39,12 @@ const model = {
   roomId: '',
   roomName: '',
   conversations: [],
+  people: [],
   busy: false,
   topFolderHandle: null,
+  maxFileSize: 10_000_000,
+  downloadFiles: false,
+  downloadPeople: true,
 
   init() {
     this.loadPrefs();
@@ -66,24 +74,38 @@ const model = {
   async downloadRoom() {
     try {
       this.topFolderHandle = await this.askForLocation();
-      this.saveMessages();
+      this.saveAll();
     }
     catch(e) {
       console.log(e);
     }
   },
 
-  async saveMessages() {
+  safeFileName(name) {
+    return name.replaceAll(' ', '_').replace(/\W/g, '_');
+  },
+
+  async saveAll() {
     const root = this.topFolderHandle;
     const data = JSON.stringify(this.conversations, null, 2);
-    const folderName = this.roomId;
+    // const folderName = this.roomId;
+    const folderName = this.safeFileName(this.roomName);
+
     try {
       const folder = await root.getDirectoryHandle(folderName, { create: true });
       const fileHandle = await folder.getFileHandle("messages.json", { create: true });
       const messageFile = await fileHandle.createWritable();
       await messageFile.write(data);
       messageFile.close();
-      this.saveFiles(folder);
+
+      if (this.downloadFiles) {
+        this.saveFiles(folder);
+      }
+
+      if (this.downloadPeople) {
+        this.people = await this.fetchPeople();
+        await this.savePeople(folder);
+      }
     }
     catch(e) {
       console.log(e);
@@ -106,7 +128,7 @@ const model = {
       count += 1;
       try {
         const info = await getFileInfo(token, url);
-        if (info.size < maxFileSize) {
+        if (info.size < this.maxFileSize) {
           const file = await getFile(token, url);
           const blob = await file.blob();
           console.log('save', count, '/', all.length, info);
@@ -149,6 +171,71 @@ const model = {
       console.log(e);
       this.busy = false;
     }
+  },
+
+  async fetchPeople() {
+    this.busy = true;
+    const ids = new Set(this.conversations.flat().map(c => c.personId));
+    const people = [];
+    for (const id of ids) {
+      try {
+        const res = await getPerson(this.token, id);
+        if (res.ok) {
+          const person = await res.json();
+          people.push(person);
+          console.log('fetched', people.length, '/', ids.size, person.displayName);
+        }
+        else {
+          console.warn('not able to fetch', id);
+        }
+      }
+      catch(e) {
+        console.log('error fetching', id);
+      }
+
+      await sleep(1000);
+    }
+    console.log('done fetching people');
+    this.busy = false;
+
+    return people;
+  },
+
+  async savePeople(folder) {
+    const data = JSON.stringify(this.people, null, 2);
+
+    try {
+      // const folder = await rootFolder.getDirectoryHandle('people', { create: true });
+      const file = await folder.getFileHandle('people.json', { create: true });
+      const stream = await file.createWritable();
+      await stream.write(data);
+      stream.close();
+      await this.saveAvatars(folder);
+    }
+    catch(e) {
+      console.log(e);
+    }
+  },
+
+  async saveAvatars(folder) {
+    this.people.forEach(async (person) => {
+      const { avatar } = person;
+      if (avatar) {
+        const scaled = avatar.replace('~1600', '~110');
+        try {
+          const fileName = (person.emails?.[0] || person.id) + '.jpg';
+          const res = await getFile(this.token, scaled);
+          const blob = await res.blob();
+          const file = await folder.getFileHandle(fileName, { create: true });
+          const stream = await file.createWritable();
+          await stream.write(blob);
+          stream.close();
+        }
+        catch(e) {
+          console.log('not able to save avatar', person.emails, scaled);
+        }
+      }
+    });
   },
 
   async checkToken() {

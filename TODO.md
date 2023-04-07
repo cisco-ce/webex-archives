@@ -3,6 +3,9 @@
 * Fetch and save people
 
 
+* Refactor: move all file handling and downloading to helper
+
+* Proper progress bar when saving
 * Support more than 1000 messages (pagination)
 * Possible to open archive file
 * Possible to stop / cancel download
