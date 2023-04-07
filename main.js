@@ -31,7 +31,7 @@ const model = {
 
   token: '',
   user: null,
-
+  rooms: [],
   roomId: '',
   roomName: '',
   conversations: [],
@@ -45,8 +45,8 @@ const model = {
   loadPrefs() {
     try {
       const stored = JSON.parse(localStorage.getItem('archiver-prefs'));
-      this.token = stored.token;
-      this.roomId = stored.roomId;
+      this.setToken(stored.token);
+      this.setRoom(stored.roomId);
     }
     catch(e) {}
   },
@@ -66,7 +66,6 @@ const model = {
   async downloadRoom() {
     try {
       this.topFolderHandle = await this.askForLocation();
-      await this.fetchMessages();
       this.saveMessages();
     }
     catch(e) {
@@ -138,7 +137,7 @@ const model = {
       if (res.ok) {
         const { items } = await res.json();
         const conversations = groupMessages(items);
-        console.log(conversations);
+        // console.log(conversations);
         this.conversations = conversations;
       }
       else {
@@ -153,9 +152,14 @@ const model = {
   },
 
   async checkToken() {
+    this.user = null;
     this.busy = true;
 
     const token = this.token.trim();
+    if (!token) {
+      return;
+    }
+
     try {
       const res = await whoAmI(token);
       if (res.ok) {
@@ -171,14 +175,48 @@ const model = {
       console.log(e);
       this.busy = false;
     }
+  },
 
+  async findRooms() {
+    this.busy = true;
+
+    const token = this.token.trim();
+    try {
+      const res = await getRooms(token);
+      if (res.ok) {
+        this.rooms = (await res.json()).items;
+      }
+      else {
+        console.warn('not able to find rooms', await res.text());
+      }
+      this.busy = false;
+
+    }
+    catch(e) {
+      console.log(e);
+      this.busy = false;
+    }
+  },
+
+  setToken(token) {
+    this.token = token;
+    this.checkToken();
+  },
+
+  async setRoom(id) {
+    this.roomId = id;
+    await this.checkRoom();
   },
 
   async checkRoom() {
-    console.log('check room');
     this.roomName = '';
     const token = this.token.trim();
-    const roomId = this.roomId.trim();
+    const roomId = fixId(this.roomId.trim());
+    this.roomId = roomId;
+
+    // console.log('fetch room', this.roomId);
+    if (!roomId || !token) return;
+
     this.busy = true;
 
     try {
@@ -191,7 +229,7 @@ const model = {
         console.warn(await res.text());
       }
       this.busy = false;
-
+      this.fetchMessages();
     }
     catch(e) {
       console.log(e);

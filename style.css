@@ -24,11 +24,38 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  padding: 1em;
+  background-color: white;
+  border: 1px solid #ddd;
+  margin: 1em;
+  border-radius: 1em;
+}
+
+.cols {
+  display: flex;
+}
+
+.cols section {
+  width: 0;
+  flex-grow: 1;
 }
 
 textarea {
   font-family: inherit;
   width: 30em;
+}
+
+button {
+  cursor: pointer;
+}
+
+.room {
+  cursor: pointer;
+  padding: 0.3em;
+}
+
+.room:hover {
+  background-color: #eee;
 }
 
 .message {

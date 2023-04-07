@@ -2,8 +2,20 @@ const apiUrl = 'https://api.ciscospark.com/v1/';
 
 // typically Y2lzY29zcGFyazovL3VzL1JPT00vM2ZlMDgwMTAtZDIxZi0xMWVkLTgyY2MtMGQ2YzgwYTYxMTA1
 // => ciscospark://us/ROOM/3fe08010-d21f-11ed-82cc-0d6c80a61105
-function properId(id, region = 'us') {
-  return btoa('ciscospark://' + region + '/ROOM/' + id);
+function fixId(id, region = 'us') {
+  id = id.trim();
+
+  // pasted details from webex client ("Copy space details"):
+  const roomIdPattern = /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/;
+  const match = id.match(roomIdPattern);
+  if (match) {
+    id = match[0];
+  }
+
+  if (id.length === 36) {
+    return btoa('ciscospark://' + region + '/ROOM/' + id);
+  }
+  return id;
 }
 
 function webex(url, token, method = "GET", body = null) {
@@ -24,6 +36,11 @@ function getMessages(token, roomId, max = 1000) {
 
 function getRoomDetails(token, roomId) {
   const url = `${apiUrl}rooms/${roomId}`;
+  return webex(url, token);
+}
+
+function getRooms(token) {
+  const url = `${apiUrl}rooms?max=1000`;
   return webex(url, token);
 }
 
