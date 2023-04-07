@@ -32,8 +32,16 @@ web page to view archived rooms. -->
   x-data="model"
 >
 
+<h1 x-text="data.room.title"></h1>
+
 <section>
-  Conversations in the room
+  <div>
+    Room id: <span x-text="data.room.id"></span>
+  </div>
+  <div>
+    Archive date: <span x-text="data.meta.created"></span>
+  </div>
+
   <template x-for="conversation in data.conversations">
     <div class="conversation">
       <template x-for="message, i in conversation">

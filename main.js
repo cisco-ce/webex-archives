@@ -32,13 +32,13 @@ const model = {
   user: null,
   rooms: [],
   roomId: '',
-  roomName: '',
+  currentRoom: '',
   conversations: [],
   busy: false,
   settings: {
     maxFileSize: 10_000_000,
-    downloadFiles: true,
-    downloadPeople: true,
+    downloadFiles: false,
+    downloadPeople: false,
   },
   downloader: null,
 
@@ -65,7 +65,7 @@ const model = {
 
   async downloadRoom() {
     this.downloader = await Downloader.create(this.token);
-    const { downloader, roomName, conversations, settings } = this;
+    const { downloader, currentRoom, conversations, settings } = this;
 
     if (!this.downloader) {
       alert('You must pick a directory to save an archive.');
@@ -73,7 +73,7 @@ const model = {
     }
 
     this.busy = true;
-    await downloader.saveAll(roomName, conversations, settings);
+    await downloader.saveAll(currentRoom, conversations, settings);
     this.busy = false;
     alert('Done!');
   },
@@ -161,7 +161,7 @@ const model = {
   },
 
   async checkRoom() {
-    this.roomName = '';
+    this.currentRoom = null;
     const token = this.token.trim();
     const roomId = fixId(this.roomId.trim());
     this.roomId = roomId;
@@ -174,8 +174,7 @@ const model = {
     try {
       const res = await getRoomDetails(token, roomId);
       if (res.ok) {
-        const room = await res.json();
-        this.roomName = room.title;
+        this.currentRoom = await res.json();
       }
       else {
         console.warn(await res.text());

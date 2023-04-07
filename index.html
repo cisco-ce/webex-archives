@@ -32,7 +32,7 @@
     Room id:
     <br/>
     <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
-    <div x-text="roomName"></div>
+    <div x-text="currentRoom?.title"></div>
   </div>
 </section>
 

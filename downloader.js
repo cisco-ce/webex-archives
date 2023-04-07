@@ -45,10 +45,10 @@ class Downloader {
     return name.replaceAll(' ', '_').replace(/\W/g, '_');
   }
 
-  async saveAll(roomName, conversations, settings) {
+  async saveAll(room, conversations, settings) {
     const root = this.root;
     // const folderName = this.roomId;
-    const folderName = this.safeFileName(roomName);
+    const folderName = this.safeFileName(room.title);
 
     try {
       const folder = await createFolder(root, folderName);
@@ -71,6 +71,7 @@ class Downloader {
 
       const data = {
         meta,
+        room,
         conversations,
         people,
       };
