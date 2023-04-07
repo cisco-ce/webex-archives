@@ -21,53 +21,37 @@
 <section>
   <div>
     Token. <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find it here</a>
-    <br/>
-    <textarea rows="3" placeholder="Token" x-model="token" @change="checkToken()"></textarea>
-    <div x-text="user?.displayName"></div>
   </div>
   <div>
-
+    <textarea rows="3" placeholder="Token" x-model="token" @change="checkToken()"></textarea>
+    <span x-text="user?.displayName"></span>
   </div>
   <div>
     Room id:
-    <br/>
-    <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
-    <div x-text="currentRoom?.title"></div>
   </div>
+  <div>
+    <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
+    <span x-text="currentRoom?.title"></span>
+  </div>
+  <div>
+      <button @click="downloadRoom()" :disabled="busy || !roomId">Download room</button>
+  </div>
+
 </section>
 
-<div class="cols">
-  <section>
-    Rooms
-    <div>
-      <button @click="findRooms()" :disabled="busy || !token">Find rooms</button>
+<section>
+  Rooms
+  <div>
+    <button @click="findRooms()" :disabled="busy || !token">Find rooms</button>
+  </div>
+  <template x-for="room in rooms">
+    <div class="room" @click="setRoom(room.id)">
+      <span x-text="room.type === 'group' ? '👥' : '👤' "></span>
+      <span x-text="room.title"></span>
     </div>
-    <template x-for="room in rooms">
-      <div class="room" @click="setRoom(room.id)">
-        <span x-text="room.type === 'group' ? '👥' : '👤' "></span>
-        <span x-text="room.title"></span>
-      </div>
-    </template>
-  </section>
+  </template>
+</section>
 
-  <section>
-    Conversations in room
-    <div>
-      <button @click="downloadRoom()" :disabled="busy || !roomId">Download</button>
-    </div>
-    <template x-for="conversation in conversations">
-      <div class="conversation">
-        <template x-for="message, i in conversation">
-          <div class="message">
-            <i x-text="message.personEmail"></i>:<br/>
-            <div x-text="message.text"></div>
-            <div x-text="'🔗 Contains a file'" x-show="message.files?.length"></div>
-          </div>
-        </template>
-      </div>
-    </template>
-  </section>
-</div>
 
 </main>
 
