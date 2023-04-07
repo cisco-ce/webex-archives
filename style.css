@@ -1,0 +1,47 @@
+:root {
+  --main-accent: black;
+  --error: #cc1010;
+  --blue: #1170cf;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: arial;
+  background-color: #f7f7f7;
+  padding: 2em;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+textarea {
+  font-family: inherit;
+  width: 30em;
+}
+
+.message {
+  border-radius: 1em;
+  padding: 1em;
+  background: #ddd;
+  margin-top: 0.5em;
+}
+
+.message:first-of-type {
+  margin-left: 0;
+}
+
+.message {
+  margin-left: 2em;
+}
