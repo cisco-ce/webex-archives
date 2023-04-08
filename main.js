@@ -118,7 +118,8 @@ const model = {
         this.user = await res.json();
       }
       else {
-        console.warn('not able to use token', await res.text());
+        alert('The current token does not seem to be valid. Perhaps it has expired?');
+        // console.warn('not able to use token', await res.text());
       }
       this.busy = false;
 
