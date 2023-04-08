@@ -12,10 +12,12 @@
 * Option to only save images
 * Option to fetch people
 * Option to limit file size downloads
-* Dont overwrite attachment file with same name
+* Show thumbnail if a file is image
 * Show initials and random color if missing avatar
 * Warn about missing support for cards (or is fallback good enough?)
+* Remember preference settings too
 * Save alpine.js too, so archive is fully offline
+* Save the people/avatar in a common location to avoid redownload
 
 Documentation
 

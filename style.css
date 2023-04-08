@@ -41,7 +41,7 @@ section {
 }
 
 a {
-  margin: 0 1em;
+  margin: 0 0.3em;
   color: var(--blue);
   text-decoration: none;
 }

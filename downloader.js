@@ -23,6 +23,11 @@ async function copyUrlToFile(url, folder, file) {
   await saveFile(folder, file, text);
 }
 
+function uniqueFileName(original) {
+  const prefix = Math.floor(Math.random() * 10E4);
+  return prefix + '-' + original;
+}
+
 class Downloader {
 
   constructor(root, token) {
@@ -137,8 +142,8 @@ class Downloader {
           const file = await getFile(token, url);
           const blob = await file.blob();
           console.log('save', count, '/', all.length, size);
-          const localName = name; // TODO append randon number
-          await saveFile(folder, name, blob);
+          const localName = uniqueFileName(name);
+          await saveFile(folder, localName, blob);
           map.push({ url, localName, type, size });
         }
         else {
