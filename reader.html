@@ -14,15 +14,29 @@ web page to view archived rooms. -->
   <script>
     const model = {
       data: null,
+
       init() {
         this.data = data;
       },
+
       avatar(email) {
         return './people/' + email + '.jpg';
       },
+
       name(email) {
         return this.data.people?.find(d => d.emails[0] === email)?.displayName || email;
       },
+
+      findFile(url) {
+        const files = this.data.files;
+        if (!files) return;
+        const path = files.find(f => f.url === url)?.localName;
+        return path ? 'files/' + path : null;
+      },
+
+      linkName(url) {
+        return url ? url.split('/').at(-1) : 'N/A';
+      }
     }
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -32,17 +46,17 @@ web page to view archived rooms. -->
   x-data="model"
 >
 
-<h1 x-text="data.room.title"></h1>
+<h1 x-text="data?.room?.title"></h1>
 
 <section>
   <div>
-    Room id: <span x-text="data.room.id"></span>
+    Room id: <span x-text="data?.room?.id"></span>
   </div>
   <div>
-    Archive date: <span x-text="data.meta.created"></span>
+    Archive date: <span x-text="data?.meta?.created"></span>
   </div>
 
-  <template x-for="conversation in data.conversations">
+  <template x-for="conversation in data?.conversations">
     <div class="conversation">
       <template x-for="message, i in conversation">
         <div class="message">
@@ -51,7 +65,16 @@ web page to view archived rooms. -->
             <div x-text="name(message.personEmail)"></div>
           </div>
           <div x-html="message.html || message.text || ''" class="text"></div>
-          <div x-text="'🔗 Contains a file'" x-show="message.files?.length"></div>
+          <div x-show="message.files?.length" class="files">
+            Files:
+            <template x-for="url in message.files">
+              <a
+                :href="findFile(url)"
+                x-text="linkName(findFile(url))"
+                target="_blank"
+              ></a>
+            </template>
+          </div>
         </div>
       </template>
     </div>

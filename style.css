@@ -40,6 +40,16 @@ section {
   flex-grow: 1;
 }
 
+a {
+  margin: 0 1em;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 textarea {
   font-family: inherit;
   width: 30em;
@@ -82,7 +92,7 @@ button {
   color: #666;
 }
 
-.message .text {
+.message .text, .message .files {
   margin-left: 32px;
 }
 

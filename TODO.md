@@ -27,3 +27,12 @@ Documentation
 
 Ski room:
 Y2lzY29zcGFyazovL3VzL1JPT00vYTE1YjMwODAtYTYxNy0xMWVkLWEwMGItMWRjYzg4YTNmNTRk
+
+
+## API Feedback
+
+Missing api wise to be able to make a decent working chat client:
+* No api for unread messages
+* No api for reactions
+* No way to search for spaces
+

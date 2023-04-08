@@ -49,13 +49,14 @@ class Downloader {
     const root = this.root;
     // const folderName = this.roomId;
     const folderName = this.safeFileName(room.title);
+    let files;
 
     try {
       const folder = await createFolder(root, folderName);
 
       if (settings.downloadFiles) {
         const filesFolder = await createFolder(folder, 'files');
-        await this.saveFiles(filesFolder, conversations, settings);
+        files = await this.saveFiles(filesFolder, conversations, settings);
       }
 
       let people = null;
@@ -72,6 +73,7 @@ class Downloader {
       const data = {
         meta,
         room,
+        files,
         conversations,
         people,
       };
@@ -124,25 +126,30 @@ class Downloader {
 
     const all = files.flat();
 
+    const map = [];
+
     let count = 0;
     for (const url of all) {
       count += 1;
       try {
-        const info = await getFileInfo(token, url);
-        if (info.size < settings.maxFileSize) {
+        const { name, size, type } = await getFileInfo(token, url);
+        if (size < settings.maxFileSize) {
           const file = await getFile(token, url);
           const blob = await file.blob();
-          console.log('save', count, '/', all.length, info);
-          await saveFile(folder, info.name, blob);
+          console.log('save', count, '/', all.length, size);
+          const localName = name; // TODO append randon number
+          await saveFile(folder, name, blob);
+          map.push({ url, localName, type, size });
         }
         else {
-          console.log('skip file', info, 'too large');
+          console.log('skip file', name, 'too large');
         }
       }
       catch(e) {
         console.log(e);
       }
     }
+    return map;
   }
 
   async saveAvatars(folder, people) {
