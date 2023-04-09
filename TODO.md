@@ -10,6 +10,7 @@
 * Remember preference settings too
 * Save alpine.js too, so archive is fully offline
 
+* Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
 * Log of what was downloaded / not downloaded
 * Warn about missing support for cards (or is fallback good enough?)
@@ -31,6 +32,8 @@ Y2lzY29zcGFyazovL3VzL1JPT00vYTE1YjMwODAtYTYxNy0xMWVkLWEwMGItMWRjYzg4YTNmNTRk
 
 Missing api wise to be able to make a decent working chat client:
 * No api for unread messages
-* No api for reactions
-* No way to search for spaces
+* No api for listing reactions (or for reacting)
+* No avatar for spaces?
 
+* Extremely slow "list room" search (+10 sec) - and no way to search for spaces
+* Very slow to search for people one by one

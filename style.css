@@ -96,6 +96,12 @@ button {
   margin-left: 32px;
 }
 
+.message .messageQuote {
+  border-left: 4px solid #aaa;
+  padding-left: 9px;
+  margin-left: 0;
+}
+
 .files {
   display: flex;
 }
