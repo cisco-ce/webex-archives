@@ -52,7 +52,7 @@ function getRooms(token) {
 async function getFileInfo(token, url) {
   const headers = (await webex(url, token, 'HEAD')).headers;
   const disp = headers.get('Content-Disposition');
-  const size = headers.get('Content-Length');
+  const size = Number(headers.get('Content-Length'));
   const type = headers.get('Content-Type');
   const name = disp.match(/filename="(.*)"/)?.[1];
   return {

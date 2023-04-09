@@ -27,15 +27,10 @@ web page to view archived rooms. -->
         return this.data.people?.find(d => d.emails[0] === email)?.displayName || email;
       },
 
-      findFile(url) {
-        const files = this.data.files;
-        if (!files) return;
-        const path = files.find(f => f.url === url)?.localName;
-        return path ? 'files/' + path : null;
-      },
-
-      linkName(url) {
-        return url ? url.split('/').at(-1) : 'N/A';
+      thumb(file) {
+        return file.type.startsWith('image')
+          ? './files/' + file.localName
+          : 'https://cdn2.iconfinder.com/data/icons/pittogrammi/142/95-512.png';
       },
 
       datetime(date) {
@@ -74,13 +69,10 @@ web page to view archived rooms. -->
           </div>
           <div x-html="message.html || message.text || ''" class="text"></div>
           <div x-show="message.files?.length" class="files">
-            Files:
-            <template x-for="url in message.files">
-              <a
-                :href="findFile(url)"
-                x-text="linkName(findFile(url))"
-                target="_blank"
-              ></a>
+            <template x-for="file in message.files">
+              <a :href="'files/' + file.localName" target="_blank">
+                <img :src="thumb(file)" />
+              </a>
             </template>
           </div>
         </div>

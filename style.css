@@ -96,6 +96,15 @@ button {
   margin-left: 32px;
 }
 
+.files {
+  display: flex;
+}
+
+.files img {
+  height: 80px;
+  margin: 10px;
+}
+
 .avatar {
   width: 25px;
   height: 25px;

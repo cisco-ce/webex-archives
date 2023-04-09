@@ -1,22 +1,18 @@
 # TODO
 
-* Link to files / images properly
 * Proper progress bar when saving
 * Support more than 1000 messages (pagination)
-* Possible to stop / cancel download
-* Add date to message header
-* Log of what was downloaded / not downloaded
 * Option to set max messages
 * Option to set start/end date
-* Option to store files
 * Option to only save images
-* Option to fetch people
 * Option to limit file size downloads
-* Show thumbnail if a file is image
 * Show initials and random color if missing avatar
-* Warn about missing support for cards (or is fallback good enough?)
 * Remember preference settings too
 * Save alpine.js too, so archive is fully offline
+
+* Possible to stop / cancel download
+* Log of what was downloaded / not downloaded
+* Warn about missing support for cards (or is fallback good enough?)
 * Save the people/avatar in a common location to avoid redownload
 
 Documentation
