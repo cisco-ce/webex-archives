@@ -122,12 +122,11 @@ class Downloader {
   async saveFiles(folder, conversations, settings) {
     const { token } = this;
 
-    const count = conversations.flat()
+    const total = conversations.flat()
       .map(msg => msg.files)
       .flat().filter(i => i).length;
 
-    console.log('total files', count);
-
+    let count = 0;
     // we need to do the looping sequentially to avoid rate limiting:
     for (const conv of conversations) {
       for (const msg of conv) {
@@ -135,11 +134,12 @@ class Downloader {
 
         const list = [];
         for (const url of msg.files) {
+          count++;
           const { name, size, type } = await getFileInfo(token, url);
           if (size < settings.maxFileSize) {
             const file = await getFile(token, url);
             const blob = await file.blob();
-            console.log('save', name, size);
+            console.log('save', name, size, count, '/', total);
             const localName = uniqueFileName(name);
             await saveFile(folder, localName, blob);
             list.push({ url, localName, type, size });
