@@ -35,10 +35,20 @@ web page to view archived rooms. -->
 
       datetime(date) {
         const d = new Date(date);
-        const day = d.toLocaleDateString();
-        const time = d.toLocaleTimeString(undefined, { timeStyle:'short' });
-        return day + ' ' + time;
-      },
+        const o =  {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit'
+        };
+        const currentYear = new Date().getFullYear();
+        if (currentYear !== d.getFullYear()) {
+          o.year = 'numeric';
+        };
+
+        return d.toLocaleDateString(undefined, o);
+      }
     }
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
