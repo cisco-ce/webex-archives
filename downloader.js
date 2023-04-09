@@ -76,6 +76,7 @@ class Downloader {
 
       const data = {
         meta,
+        settings,
         room,
         conversations,
         people,
