@@ -28,8 +28,9 @@ web page to view archived rooms. -->
       },
 
       html(message) {
-        const txt = message.text.replaceAll('\n', '<br/>');
-        return message.html || txt || '';
+        if (message.html) return message.html;
+        if (message.text) return message.text.replaceAll('\n', '<br/>');
+        return '';
       },
 
       thumb(file) {
