@@ -36,7 +36,14 @@ web page to view archived rooms. -->
 
       linkName(url) {
         return url ? url.split('/').at(-1) : 'N/A';
-      }
+      },
+
+      datetime(date) {
+        const d = new Date(date);
+        const day = d.toLocaleDateString();
+        const time = d.toLocaleTimeString(undefined, { timeStyle:'short' });
+        return day + ' ' + time;
+      },
     }
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,6 +70,7 @@ web page to view archived rooms. -->
           <div class="header">
             <img :src="avatar(message.personEmail)" class="avatar" :title="message.personEmail"/>
             <div x-text="name(message.personEmail)"></div>
+            <div x-text="datetime(message.created)"></div>
           </div>
           <div x-html="message.html || message.text || ''" class="text"></div>
           <div x-show="message.files?.length" class="files">
