@@ -27,6 +27,11 @@ web page to view archived rooms. -->
         return this.data.people?.find(d => d.emails[0] === email)?.displayName || email;
       },
 
+      html(message) {
+        const txt = message.text.replaceAll('\n', '<br/>');
+        return message.html || txt || '';
+      },
+
       thumb(file) {
         return file.type.startsWith('image')
           ? './files/' + file.localName
@@ -77,7 +82,7 @@ web page to view archived rooms. -->
             <div x-text="name(message.personEmail)"></div>
             <div x-text="datetime(message.created)"></div>
           </div>
-          <div x-html="message.html || message.text || ''" class="text"></div>
+          <div x-html="html(message)" class="text"></div>
           <div x-show="message.files?.length" class="files">
             <template x-for="file in message.files">
               <a :href="'files/' + file.localName" target="_blank">
