@@ -23,28 +23,56 @@
     Token. <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find it here</a>
   </div>
   <div>
-    <textarea rows="3" placeholder="Token" x-model="token" @change="checkToken()"></textarea>
-    <span x-text="user?.displayName"></span>
+    <textarea
+      rows="3"
+      placeholder="Token"
+      x-model="token"
+      @change="checkToken()"
+      @paste="checkToken()"
+    ></textarea>
+    <div x-text="user?.displayName"></div>
   </div>
   <div>
     Room id:
   </div>
   <div>
     <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
-    <span x-text="currentRoom?.title"></span>
+    <div x-text="currentRoom?.title"></div>
   </div>
   <hr/>
-  <div>
-    <input id="saveFiles" type="checkbox" x-model="settings.downloadFiles" />
-    <label for="saveFiles">Download files</label>
-    <input id="savePeople" type="checkbox" x-model="settings.downloadPeople" />
-      <label for="savePeople">Download people</label>
+  <div class="form">
+    <div>
+      <input
+        id="saveFiles"
+        type="checkbox"
+        x-model="settings.downloadFiles"
+        :disabled="busy || !roomId"
+      />
+      <label
+        for="saveFiles"
+        :disabled="busy || !roomId"
+      >Download files</label>
+    </div>
+    <div>
+      <input
+        id="savePeople"
+        type="checkbox"
+        x-model="settings.downloadPeople"
+        :disabled="busy || !roomId"
+      />
+      <label
+        for="savePeople"
+        :disabled="busy || !roomId"
+      >Download people</label>
+    </div>
+    <div>
       <button @click="downloadRoom()" :disabled="busy || !roomId">Download room</button>
+    </div>
   </div>
 
 </section>
 
-<section>
+<section x-show="false">
   Rooms
   <div>
     <button @click="findRooms()" :disabled="busy || !token">Find rooms</button>
