@@ -45,7 +45,7 @@ function getPerson(token, id) {
 }
 
 function getRooms(token) {
-  const url = `${apiUrl}rooms?max=1000`;
+  const url = `${apiUrl}rooms?max=1000&sortBy=lastactivity`;
   return webex(url, token);
 }
 
