@@ -68,6 +68,8 @@
     <div>
       <button @click="downloadRoom()" :disabled="busy || !roomId">Download room</button>
     </div>
+    <div class="busy" x-text="busy || '&nbsp;'">
+    </div>
   </div>
 
 </section>

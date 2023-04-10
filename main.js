@@ -72,7 +72,7 @@ const model = {
       return;
     }
 
-    this.busy = true;
+    this.busy = 'Starting download';
     await downloader.saveAll(currentRoom, conversations, settings);
     this.busy = false;
     alert('Done!');
@@ -82,7 +82,7 @@ const model = {
 
     const token = this.token.trim();
     const roomId = this.roomId.trim();
-    this.busy = true;
+    this.busy = 'Fetching messages';
 
     try {
       const res = await getMessages(token, roomId);
@@ -105,7 +105,7 @@ const model = {
 
   async checkToken() {
     this.user = null;
-    this.busy = true;
+    this.busy = 'Verifying token';
 
     const token = this.token.trim();
     if (!token) {
@@ -131,7 +131,7 @@ const model = {
   },
 
   async findRooms() {
-    this.busy = true;
+    this.busy = 'Searching for rooms. This may take a while';
 
     const token = this.token.trim();
     try {
@@ -170,7 +170,7 @@ const model = {
     // console.log('fetch room', this.roomId);
     if (!roomId || !token) return;
 
-    this.busy = true;
+    this.busy = 'Verifying room id';
 
     try {
       const res = await getRoomDetails(token, roomId);
@@ -186,7 +186,6 @@ const model = {
     catch(e) {
       console.log(e);
       this.busy = false;
-
     }
   }
 };

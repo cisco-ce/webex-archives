@@ -38,6 +38,7 @@ class Downloader {
   static async create(token) {
     try {
       const root = await window.showDirectoryPicker({ mode: 'readwrite' });
+      console.log('got access to', root.name);
       return new Downloader(root, token);
     }
     catch(e) {
