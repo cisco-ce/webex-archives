@@ -52,10 +52,14 @@ section {
 
 .cols {
   display: flex;
+  gap: 1em;
+  align-items: center;
+  margin: 1em;
 }
 
-.cols section {
+.cols > * {
   width: 0;
+  width: 40vw;
   flex-grow: 1;
 }
 
@@ -68,7 +72,6 @@ a:hover {
 
 textarea {
   font-family: inherit;
-  width: 30em;
   background-color: #eee;
   border: 0px;
   padding: 10px;
@@ -84,12 +87,13 @@ button {
   color: white;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background-color: #149e83;
 }
 
 *:disabled, input:disabled+label {
   opacity: 0.5;
+  cursor: auto;
 }
 
 .room {
