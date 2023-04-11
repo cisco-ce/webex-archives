@@ -46,6 +46,10 @@ const model = {
     this.loadPrefs();
   },
 
+  get compatible() {
+    return typeof window.showDirectoryPicker === 'function';
+  },
+
   loadPrefs() {
     try {
       const stored = JSON.parse(localStorage.getItem('archiver-prefs'));
@@ -125,7 +129,7 @@ const model = {
 
     }
     catch(e) {
-      console.log(e);
+      console.error('invalid token');
       this.busy = false;
     }
   },
@@ -153,12 +157,10 @@ const model = {
 
   setToken(token) {
     this.token = token;
-    this.checkToken();
   },
 
   async setRoom(id) {
     this.roomId = id;
-    await this.checkRoom();
   },
 
   async checkRoom() {

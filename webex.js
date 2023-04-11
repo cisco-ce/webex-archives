@@ -1,4 +1,4 @@
-const apiUrl = 'https://api.ciscospark.com/v1/';
+const apiUrl = 'https://webexapis.com/v1/';
 
 // typically Y2lzY29zcGFyazovL3VzL1JPT00vM2ZlMDgwMTAtZDIxZi0xMWVkLTgyY2MtMGQ2YzgwYTYxMTA1
 // => ciscospark://us/ROOM/3fe08010-d21f-11ed-82cc-0d6c80a61105

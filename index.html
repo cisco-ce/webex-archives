@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Archiver</title>
+  <title>Webex Archives</title>
   <link rel="stylesheet" href="./style.css"></link>
   <script src="./webex.js" defer></script>
   <script src="./downloader.js" defer></script>
@@ -18,29 +18,66 @@
 
 <main>
 
-<section>
+<h1>Webex Archives</h1>
+
+<section x-show="!compatible">
+  <h2>Your browser is not compatible</h2>
   <div>
-    Token. <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find it here</a>
+    Webex Archives needs to save files (attachments, people avatars, messages etc) to your local drive. Your browser currently does not support the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API">File System Access APIs</a>.
+  </div>
+  <div>
+    Please open this web page with a <a href="https://caniuse.com/?search=showDirectoryPicker">compatible laptop browser</a> - typically Chrome, Edge or Opera.
+  </div>
+</section>
+
+<section x-show="!user && compatible">
+  <h2>Provide your Webex Personal Access Token</h2>
+  <div>
+    <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find your token here</a>
   </div>
   <div>
     <textarea
       rows="3"
-      placeholder="Token"
+      placeholder="Paste token here"
       x-model="token"
-      @change="checkToken()"
       @paste="checkToken()"
     ></textarea>
     <div x-text="user?.displayName"></div>
   </div>
   <div>
-    Room id:
+    <button @click="checkToken()">Next</button>
+  </div>
+
+</section>
+
+<section x-show="user && !currentRoom">
+  <h2>Select room to download</h2>
+  <div>
+    Tip: Select the room in your Webex app and select <i>Help > Copy Space Details</i> and paste here.
   </div>
   <div>
-    <textarea rows="3" placeholder="Room id" x-model="roomId" @change="checkRoom()"></textarea>
+    <textarea
+      rows="3"
+      placeholder="Y2lzY29zcGFyazovL3VzL1J..."
+      x-model="roomId"
+    ></textarea>
     <div x-text="currentRoom?.title"></div>
   </div>
-  <hr/>
+  <div>
+    <button @click="checkRoom()">Next</button>
+  </div>
+</section>
+
+<section x-show="user && currentRoom">
+  <h2>Choose which data should be downloaded</h2>
+  <div>
+    Room: <i x-text="currentRoom.title"></i>
+  </div>
   <div class="form">
+    <div>
+      <input type="checkbox" disabled checked />
+      <label>Messages</label>
+    </div>
     <div>
       <input
         id="saveFiles"
@@ -51,7 +88,7 @@
       <label
         for="saveFiles"
         :disabled="busy || !roomId"
-      >Download files</label>
+      >Files (images, attachments)</label>
     </div>
     <div>
       <input
@@ -63,10 +100,10 @@
       <label
         for="savePeople"
         :disabled="busy || !roomId"
-      >Download people</label>
+      >People (avatars, names)</label>
     </div>
     <div>
-      <button @click="downloadRoom()" :disabled="busy || !roomId">Download room</button>
+      <button @click="downloadRoom()" :disabled="busy || !roomId">Download</button>
     </div>
     <div class="busy" x-text="busy || '&nbsp;'">
     </div>
