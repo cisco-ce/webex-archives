@@ -1,43 +1,40 @@
-# Webex Message Archiver
+# Webex Archives
 
-Flow:
+Simple web service (client only) for downloading Webex chat spaces to your local hard drive.
 
-* User goes to web app
-* User is asked about token, goes to developer.webex.com
-* User pastes token and logs in
-* User is shown list of recent spaces (1000?)
-* User selects space and presses download
-  * Can select max number of messages
-  * Can select date range
-  * Can select whether to download files (and max file size)
-* User is asked about folder to store data in
-* App fetches data and saves to folder
-  * App creates subfolder with space name + id as name
-  * One message.json file for all text messages
-  * One file for each attachment
-  * App also saves html content in folder needed to read archive offline
+After you download a space, it is available as a local folder on your disk with HTML file and files for attachement, images and avatars, and can be viewed completely offline and independent of any web service or Webex.
 
-## Design
+Useful if:
 
-Two part structure:
+* A colleague is about to leave, and you need to preserve important information from your chat
+* You need to keep information from valuable spaces over long time (messages are deleted from Webex after ca 3 years)
+* You need to store history for legal reasons
 
-1. Downloader / archiver
-2. Reader
+This web tool is inspired by a similar <a href="https://github.com/DJF3/Webex-Message-space-archiver" target="_blank">Python-based archive tool</a> with roughly provides the same feature set.
 
-The reader should be online (pick json file to show archive) but also an easily downloadble bundle, so people can read the archives easily, even if the web service is no longer available in the future.
+## Requirements
 
-## Questions
+* A valid Webex user account
+* A compatible browser (Chrome, Edge or Opera)
 
-* Possible to browse spaces online too? cheap webex client (esp for inspecting bots)
-* Store download meta data, so user can archive more later in same space without re-downloading existing content?
+## Features
 
-## Considerations
+## Usage
 
-* Keep the downloader short, simple and open source. Important so people that dont trust it can have a look and actually verify that is not malicious (or insecure by accident)
-* Might be better to search a large group space from an archive client than the current Webex client
-  * Faster (plain text searchable and everything searchable locally)
-  * Better navigation when many matches
-  * More filters (mention me, involved persons, has attachment, etc)
-  * Better able to show file content (and search)
+* Obtain your Personal Access token by logging in at developer.webex.com, go to https://developer.webex.com/docs/getting-started and copy your token.
+* Open the Webex Archives in a compatible browser
+* Paste the token on the first page
+* Find the room you want to take backup of, either by locating it in the Webex app and copying the space details, or by listing your spaces and finding it in the app
+* Choose what you want to download
+* Select a folder where the content will be stored on your local disk
+* Start the download
 
+After download has completed, the archive will be available in the folder you selected, and can be opened in a browser by double tapping the index.html file.
 
+## Security
+
+## Running this app locally
+
+## Feedback and support
+
+Feedback and questions can be directed to Tore Bjolseth in Cisco (Norway). For technical issues and bugs you can submit **Issues** on the GitHub project page.

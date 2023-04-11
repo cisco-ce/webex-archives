@@ -39,6 +39,8 @@ Missing api wise to be able to make a decent working chat client:
 * No api for unread messages
 * No api for listing reactions (or for reacting)
 * No avatar for spaces?
-
-* Extremely slow "list room" search (+10 sec) - and no way to search for spaces
+* Very limited people search - no substring search, no username search
+* No API to search for spaces - need to download eg 1000, search them, then potentially download 1000 more
+  * Extremely slow "list room" search (+10 sec)
 * Very slow to search for people one by one
+* No API to search for text in messages
