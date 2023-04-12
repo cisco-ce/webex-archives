@@ -41,6 +41,7 @@ const model = {
     downloadPeople: false,
   },
   downloader: null,
+  logger: null,
 
   init() {
     this.loadPrefs();
@@ -68,7 +69,8 @@ const model = {
   },
 
   async downloadRoom() {
-    this.downloader = await Downloader.create(this.token);
+    this.logger = new Logger();
+    this.downloader = await Downloader.create(this.token, this.logger);
     const { downloader, currentRoom, conversations, settings } = this;
 
     if (!this.downloader) {
@@ -79,7 +81,6 @@ const model = {
     this.busy = 'Starting download';
     await downloader.saveAll(currentRoom, conversations, settings);
     this.busy = false;
-    alert('Done!');
   },
 
   async fetchMessages() {

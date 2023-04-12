@@ -30,16 +30,17 @@ function uniqueFileName(original) {
 
 class Downloader {
 
-  constructor(root, token) {
+  constructor(root, token, logger) {
     this.root = root;
     this.token = token;
+    this.logger = logger;
   }
 
-  static async create(token) {
+  static async create(token, logger) {
     try {
       const root = await window.showDirectoryPicker({ mode: 'readwrite' });
       console.log('got access to', root.name);
-      return new Downloader(root, token);
+      return new Downloader(root, token, logger);
     }
     catch(e) {
       console.log('Not able to set root folder');
@@ -93,6 +94,7 @@ class Downloader {
     catch(e) {
       console.warn(e);
     }
+    this.logger.log('🎉 Done. The archive is now available in the local folder you selected.');
   }
 
   async fetchPeople(conversations) {
@@ -104,14 +106,18 @@ class Downloader {
         if (res.ok) {
           const person = await res.json();
           people.push(person);
+          const count = people.length;
+          this.logger.log(`Fetching person ${count} / ${ids.size}`);
           console.log('fetched', people.length, '/', ids.size, person.displayName);
         }
         else {
+          this.logger.error('Not able to fetch person');
           console.warn('not able to fetch', id);
         }
       }
       catch(e) {
         console.log('error fetching', id);
+        console.log(e);
       }
 
       await sleep(1000);
@@ -137,6 +143,7 @@ class Downloader {
         const list = [];
         for (const url of msg.files) {
           count++;
+          this.logger.log(`Fetching file ${count} / ${total}`);
           const { name, size, type } = await getFileInfo(token, url);
           if (size < settings.maxFileSize) {
             const file = await getFile(token, url);
@@ -159,12 +166,14 @@ class Downloader {
     people.forEach(async (person, n) => {
       const { avatar } = person;
       if (avatar) {
-        const scaled = avatar.replace('~1600', '~110');
+        const scaled = avatar.replace('~1600', '~110'); // possible: 80, 110, 640, ...
         try {
           const fileName = (person.emails?.[0] || person.id) + '.jpg';
           const res = await getFile(this.token, scaled);
           const blob = await res.blob();
+          const name = person.displayName;
 
+          this.logger.log(`Downloading avatar ${n + 1} / ${people.length}: ${name}`);
           await saveFile(folder, fileName, blob);
           console.log('Saved avatar', n + 1, '/', people.length);
         }
