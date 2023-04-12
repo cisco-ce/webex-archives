@@ -87,7 +87,8 @@ class Downloader {
       const content = makeJsFile('data', data);
       await saveFile(assets, 'data.js', content);
       await copyUrlToFile('./style.css', assets, 'style.css');
-      await copyUrlToFile('./reader.html', folder, 'index.html');
+      await copyUrlToFile('./archive.html', folder, 'archive.html');
+      await copyUrlToFile('https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js', assets, 'alpine.js');
     }
     catch(e) {
       console.warn(e);

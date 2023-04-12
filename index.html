@@ -9,7 +9,7 @@
   <script src="./webex.js" defer></script>
   <script src="./downloader.js" defer></script>
   <script src="./main.js" defer></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
 </head>
 <body
   x-cloak
@@ -71,7 +71,7 @@
 <section x-show="user && currentRoom">
   <h2>Choose which data should be downloaded</h2>
   <div>
-    Room: <i x-text="currentRoom.title"></i>
+    Room: <i x-text="currentRoom?.title"></i>
   </div>
   <div class="form">
     <div>

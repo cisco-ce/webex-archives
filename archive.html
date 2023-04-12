@@ -34,7 +34,7 @@ web page to view archived rooms. -->
       },
 
       thumb(file) {
-        return file.type.startsWith('image')
+        return file?.type?.startsWith('image')
           ? './files/' + file.localName
           : 'https://cdn2.iconfinder.com/data/icons/pittogrammi/142/95-512.png';
       },
@@ -57,7 +57,7 @@ web page to view archived rooms. -->
       }
     }
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="assets/alpine.js"></script>
 </head>
 <body
   x-cloak

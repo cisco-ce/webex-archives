@@ -1,15 +1,15 @@
 # TODO
 
-* Check browser, require file api (chrome, chromium, edge)
 * Proper progress bar when saving
 * Support more than 1000 messages (pagination)
+* Store token, at least in session
 * Options
   * Option to set max messages
   * Option to set start/end date
   * Option to only save images
   * Option to limit file size downloads
-* Save alpine.js too, so archive is fully offline
 * Host on github
+* Avoid js errors for avatars and files
 
 * Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
