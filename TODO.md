@@ -1,5 +1,7 @@
 # TODO
 
+* Proper introduction to what the app does
+* Step for selecting folder (with explanation)
 * Proper progress bar when saving
 * Support more than 1000 messages (pagination)
 * Store token, at least in session

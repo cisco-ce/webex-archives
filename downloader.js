@@ -23,6 +23,19 @@ async function copyUrlToFile(url, folder, file) {
   await saveFile(folder, file, text);
 }
 
+function toHumanSize(bytes) {
+  if (bytes > 1_000_000_000) {
+    return (bytes / 1_000_000_000).toFixed(1) + ' GB';
+  }
+  if (bytes > 1_000_000) {
+    return (bytes / 1_000_000).toFixed(1) + ' MB';
+  }
+  if (bytes > 1_000) {
+    return Math.ceil(bytes / 1_000) + ' KB';
+  }
+  return bytes + ' B';
+}
+
 function uniqueFileName(original) {
   const prefix = Math.floor(Math.random() * 10E4);
   return prefix + '-' + original;
@@ -143,9 +156,10 @@ class Downloader {
         const list = [];
         for (const url of msg.files) {
           count++;
-          this.logger.log(`Fetching file ${count} / ${total}`);
           const { name, size, type } = await getFileInfo(token, url);
+          const humanSize = toHumanSize(size);
           if (size < settings.maxFileSize) {
+            this.logger.log(`Fetching file ${count} / ${total}: ${name} (${humanSize})`);
             const file = await getFile(token, url);
             const blob = await file.blob();
             console.log('save', name, size, count, '/', total);
