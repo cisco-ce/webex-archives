@@ -49,7 +49,6 @@ function groupMessages(list) {
 
   // build list of start messages
   const starters = list.filter(i => !i.parentId);
-  starters.sort(sortByDate).reverse();
   starters.forEach(i => {
     conversations[i.id] = [i];
   });
@@ -74,7 +73,11 @@ function groupMessages(list) {
       conversations[root.id] = [root, i];
     }
   });
-  return Object.values(conversations);
+
+  const sorted = Object.values(conversations);
+  sorted.sort((s1, s2) => s1[0].created < s2[0].created ? -1 : 1);
+
+  return sorted;
 }
 
 class Downloader {
@@ -153,23 +156,37 @@ class Downloader {
     this.logger.log('Fetching messages from room');
 
     try {
-      const res = await getMessages(token, roomId);
-      if (res.ok) {
-        const { items } = await res.json();
-        console.log('messages', items.length);
-        const conversations = groupMessages(items);
-        // console.log(conversations);
-        return conversations;
-      }
-      else {
-        this.logger.error('not able to fetch messages: ' + await res.text());
-        return [];
-      }
+      const items = await this.getAllMessages(token, roomId);
+      const conversations = groupMessages(items);
+      return conversations;
     }
     catch(e) {
       console.log(e);
       return [];
     }
+  }
+
+  async getAllMessages(token, roomId) {
+    let all = [];
+    let url = `${apiUrl}messages?roomId=${roomId}&max=1000`;
+
+    while(url) {
+      const count = all.length;
+      this.logger.log(`Fetching messages ${count} - ${count + 1000}`);
+      const res = await webex(url, token);
+      if (!res.ok) {
+        console.warn('Not able to fetch rooms');
+        return all;
+      }
+
+      const list = (await res.json()).items;
+      all = all.concat(list);
+
+      const link = res.headers.get('Link');
+      url = link?.match(/<(.*)>; rel="next"/)?.[1];
+    }
+
+    return all;
   }
 
   async fetchPeople(conversations) {
