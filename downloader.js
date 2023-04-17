@@ -41,6 +41,35 @@ function uniqueFileName(original) {
   return prefix + '-' + original;
 }
 
+// take a list of messages and group them into conversation threads
+function groupMessages(list) {
+  const conversations = {};
+
+  const sortByDate = (r1, r2) => r1.created < r2.created ? -1 : 1;
+
+  // build list of start messages
+  const starters = list.filter(i => !i.parentId);
+  starters.sort(sortByDate).reverse();
+  starters.forEach(i => {
+    conversations[i.id] = [i];
+  });
+
+  // add all threaded replies
+  const replies = list.filter(i => i.parentId);
+  replies.sort(sortByDate);
+  replies.forEach(i => {
+    const parent = conversations[i.parentId]
+    if (parent) {
+      parent.push(i);
+    }
+    else {
+      console.warn('Couldnt find parent for msg', i);
+      // TODO create dummy parent here
+    }
+  });
+  return Object.values(conversations);
+}
+
 class Downloader {
 
   constructor(root, token, logger) {
@@ -65,7 +94,9 @@ class Downloader {
     return name.replaceAll(' ', '_').replace(/\W/g, '_');
   }
 
-  async saveAll(room, conversations, settings) {
+  async saveAll(room, settings) {
+    const conversations = await this.fetchMessages(room.id);
+
     const root = this.root;
     // const folderName = this.roomId;
     const folderName = this.safeFileName(room.title);
@@ -110,6 +141,30 @@ class Downloader {
     this.logger.log('🎉 Done. The archive is now available in the local folder you selected.');
   }
 
+  async fetchMessages(roomId) {
+    const token = this.token;
+    this.logger.log('Fetching messages from room');
+
+    try {
+      const res = await getMessages(token, roomId);
+      if (res.ok) {
+        const { items } = await res.json();
+        console.log('messages', items.length);
+        const conversations = groupMessages(items);
+        // console.log(conversations);
+        return conversations;
+      }
+      else {
+        this.logger.error('not able to fetch messages: ' + await res.text());
+        return [];
+      }
+    }
+    catch(e) {
+      console.log(e);
+      return [];
+    }
+  }
+
   async fetchPeople(conversations) {
     const ids = new Set(conversations.flat().map(c => c.personId));
     const people = [];
@@ -124,7 +179,7 @@ class Downloader {
           console.log('fetched', people.length, '/', ids.size, person.displayName);
         }
         else {
-          this.logger.error('Not able to fetch person');
+          this.logger.error('Not able to fetch person ' + await res.text());
           console.warn('not able to fetch', id);
         }
       }

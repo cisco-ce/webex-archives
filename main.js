@@ -1,30 +1,4 @@
 
-function groupMessages(list) {
-  const conversations = {};
-
-  const sortByDate = (r1, r2) => r1.created < r2.created ? -1 : 1;
-
-  // build list of start messages
-  const starters = list.filter(i => !i.parentId);
-  starters.sort(sortByDate).reverse();
-  starters.forEach(i => {
-    conversations[i.id] = [i];
-  });
-
-  // add all threaded replies
-  const replies = list.filter(i => i.parentId);
-  replies.sort(sortByDate);
-  replies.forEach(i => {
-    const parent = conversations[i.parentId]
-    if (parent) {
-      parent.push(i);
-    }
-    else {
-      console.warn('Couldnt find parent for msg', i);
-    }
-  });
-  return Object.values(conversations);
-}
 
 const model = {
 
@@ -33,7 +7,6 @@ const model = {
   rooms: [],
   roomId: '',
   currentRoom: '',
-  conversations: [],
   busy: false,
   settings: {
     maxFileSize: 10_000_000,
@@ -71,7 +44,7 @@ const model = {
   async downloadRoom() {
     this.logger = new Logger();
     this.downloader = await Downloader.create(this.token, this.logger);
-    const { downloader, currentRoom, conversations, settings } = this;
+    const { downloader, currentRoom, settings } = this;
 
     if (!this.downloader) {
       alert('You must pick a directory to save an archive.');
@@ -79,33 +52,8 @@ const model = {
     }
 
     this.busy = 'Starting download';
-    await downloader.saveAll(currentRoom, conversations, settings);
+    await downloader.saveAll(currentRoom, settings);
     this.busy = false;
-  },
-
-  async fetchMessages() {
-
-    const token = this.token.trim();
-    const roomId = this.roomId.trim();
-    this.busy = 'Fetching messages';
-
-    try {
-      const res = await getMessages(token, roomId);
-      if (res.ok) {
-        const { items } = await res.json();
-        const conversations = groupMessages(items);
-        // console.log(conversations);
-        this.conversations = conversations;
-      }
-      else {
-        console.warn('not able to fetch messages', await res.text());
-      }
-      this.busy = false;
-    }
-    catch(e) {
-      console.log(e);
-      this.busy = false;
-    }
   },
 
   async checkToken() {
@@ -184,7 +132,6 @@ const model = {
         console.warn(await res.text());
       }
       this.busy = false;
-      this.fetchMessages();
     }
     catch(e) {
       console.log(e);
