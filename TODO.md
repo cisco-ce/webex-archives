@@ -21,7 +21,6 @@ Fixes:
 * Use email instead of user ids. Better for logging etc
 * Handle too many requests better. wait and retry?
 * Download seems to freeze if moving tabs or inactivity - handle better?
-* Create dummy message when parent is missing
 
 * Proper progress bar when saving
 * Host on github

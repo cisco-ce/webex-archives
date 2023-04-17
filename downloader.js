@@ -62,9 +62,16 @@ function groupMessages(list) {
     if (parent) {
       parent.push(i);
     }
+
+    // message belongs to a thread where the first message has been deleted
     else {
-      console.warn('Couldnt find parent for msg', i);
-      // TODO create dummy parent here
+      const root = {
+        id: i.parentId,
+        created: i.created,
+        html: '<i>This message was not available</i>',
+      };
+
+      conversations[root.id] = [root, i];
     }
   });
   return Object.values(conversations);
