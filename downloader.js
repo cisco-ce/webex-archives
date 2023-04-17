@@ -166,21 +166,27 @@ class Downloader {
     }
   }
 
-  async getAllMessages(token, roomId) {
+  async getAllMessages(token, roomId, settings = {}) {
     let all = [];
     let url = `${apiUrl}messages?roomId=${roomId}&max=1000`;
+    const { max } = settings;
 
     while(url) {
       const count = all.length;
       this.logger.log(`Fetching messages ${count} - ${count + 1000}`);
       const res = await webex(url, token);
       if (!res.ok) {
-        console.warn('Not able to fetch rooms');
+        console.warn('Not able to fetch messages', await res.text());
         return all;
       }
 
       const list = (await res.json()).items;
       all = all.concat(list);
+
+      // got more messages than requested
+      if (max && all.length >= max) {
+        return all.slice(0, max);
+      }
 
       const link = res.headers.get('Link');
       url = link?.match(/<(.*)>; rel="next"/)?.[1];
