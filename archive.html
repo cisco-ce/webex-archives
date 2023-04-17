@@ -17,6 +17,7 @@ web page to view archived rooms. -->
 
       init() {
         this.data = data;
+        document.title = data.room?.title || 'Webex Archives';
       },
 
       avatar(email) {
