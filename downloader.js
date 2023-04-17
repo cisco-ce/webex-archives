@@ -130,7 +130,6 @@ class Downloader {
       }
       catch(e) {
         console.log('error fetching', id);
-        console.log(e);
       }
 
       await sleep(1000);
@@ -156,19 +155,28 @@ class Downloader {
         const list = [];
         for (const url of msg.files) {
           count++;
-          const { name, size, type } = await getFileInfo(token, url);
-          const humanSize = toHumanSize(size);
-          if (size < settings.maxFileSize) {
-            this.logger.log(`Fetching file ${count} / ${total}: ${name} (${humanSize})`);
-            const file = await getFile(token, url);
-            const blob = await file.blob();
-            console.log('save', name, size, count, '/', total);
-            const localName = uniqueFileName(name);
-            await saveFile(folder, localName, blob);
-            list.push({ url, localName, type, size });
+          try {
+            const { name, size, type } = await getFileInfo(token, url);
+            const humanSize = toHumanSize(size);
+            if (size < settings.maxFileSize) {
+              this.logger.log(`Fetching file ${count} / ${total}: ${name} (${humanSize})`);
+              const file = await getFile(token, url);
+              const blob = await file.blob();
+              const localName = uniqueFileName(name);
+              try {
+                await saveFile(folder, localName, blob);
+                list.push({ url, localName, type, size });
+              }
+              catch(e) {
+                this.logger.error('Not able to download ' + name);
+              }
+            }
+            else {
+              console.log('skip file', name, 'too large');
+            }
           }
-          else {
-            console.log('skip file', name, 'too large');
+          catch(e) {
+            this.logger.error('Not able to fetch file ' + url);
           }
         }
         msg.files = list;

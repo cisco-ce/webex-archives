@@ -1,18 +1,26 @@
 # TODO
 
 * Proper introduction to what the app does
-* Step for selecting folder (with explanation)
-* Proper progress bar when saving
+* Clean one-page settings
+  * Layout (label, explanation, ui status)
+  * Button to verify token, room id
+  * Show user/token/folder when verified, and edit button
+* UI for selecting room from list
+* UI to select folder
 * Support more than 1000 messages (pagination)
 * Store token, at least in session
+* Ellipsis long file names in log
 * Options
   * Option to set max messages
   * Option to set start/end date
   * Option to only save images
   * Option to limit file size downloads
+* Show errors in log
+* Handle too many requests better. wait and retry?
+
+* Proper progress bar when saving
 * Host on github
 * Avoid js errors for avatars and files
-
 * Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
 * Open images on top of page
