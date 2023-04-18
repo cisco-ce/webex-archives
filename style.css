@@ -114,6 +114,11 @@ section .row {
   flex-grow: 1;
 }
 
+.box label {
+  min-width: 40%;
+  display: inline-block;
+}
+
 hr {
   border: 0;
   height: 2px;
