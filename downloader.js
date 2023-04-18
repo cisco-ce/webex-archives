@@ -93,7 +93,7 @@ class Downloader {
   }
 
   async saveAll(room, settings) {
-    const conversations = await this.fetchMessages(room.id);
+    const conversations = await this.fetchMessages(room.id, settings);
 
     const root = this.root;
     // const folderName = this.roomId;
@@ -139,13 +139,13 @@ class Downloader {
     this.logger.log('🎉 Done. The archive is now available in the local folder you selected.');
   }
 
-  async fetchMessages(roomId) {
+  async fetchMessages(roomId, settings) {
     const token = this.token;
     this.logger.log('Fetching messages from room');
 
     try {
-      const items = await this.getAllMessages(token, roomId);
-      const conversations = groupMessages(items);
+      const items = await this.getAllMessages(token, roomId, settings);
+      const conversations = groupMessages(items, settings);
       return conversations;
     }
     catch(e) {
@@ -154,10 +154,10 @@ class Downloader {
     }
   }
 
-  async getAllMessages(token, roomId, settings = {}) {
+  async getAllMessages(token, roomId, settings) {
     let all = [];
     let url = `${apiUrl}messages?roomId=${roomId}&max=1000`;
-    const { max } = settings;
+    const { maxMessages } = settings;
 
     while(url) {
       const count = all.length;
@@ -172,8 +172,8 @@ class Downloader {
       all = all.concat(list);
 
       // got more messages than requested
-      if (max && all.length >= max) {
-        return all.slice(0, max);
+      if (maxMessages && all.length >= maxMessages) {
+        return all.slice(0, maxMessages);
       }
 
       const link = res.headers.get('Link');
