@@ -5,7 +5,6 @@
   * Layout (label, explanation, ui status)
   * Button to verify token, room id
   * Show user/token/folder when verified, and edit button
-* UI for selecting room from list
 * UI to select folder
 * Store token, at least in session
 * Ellipsis long file names in log
@@ -14,6 +13,7 @@
   * Option to set start/end date
   * Option to only save images
   * Option to limit file size downloads
+* UI for selecting room from list
 * Show errors in log
 * Host on github pages
 * Add google analytics
@@ -22,11 +22,11 @@
 Fixes:
 * Use email instead of user ids. Better for logging etc
 * Handle too many requests better. wait and retry?
-* Download seems to freeze if moving tabs or inactivity - handle better?
+* Log says done before avatars have been saved completely (and download looks to be frozen even though it is finished)
 
 * Proper progress bar when saving
-* Host on github
 * Avoid js errors for avatars and files
+* Show date headers in reader (per month?)
 * Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
 * Open images on top of page
@@ -34,7 +34,7 @@ Fixes:
 * Remember preference settings too
 * Log of what was downloaded / not downloaded
 * Warn about missing support for cards (or is fallback good enough?)
-* Save the people/avatar in a common location to avoid redownload
+* Cache people too, to avoid so much re-downloading
 
 Documentation
 

@@ -47,6 +47,7 @@ const model = {
   },
 
   async downloadRoom() {
+    this.savePrefs();
     this.logger = new Logger();
     this.downloader = await Downloader.create(this.token, this.logger);
     const { downloader, currentRoom, settings } = this;
