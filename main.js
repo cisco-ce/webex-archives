@@ -85,6 +85,7 @@ const model = {
 
     const token = this.token.trim();
     if (!token) {
+      this.busy = false;
       return;
     }
 
