@@ -159,9 +159,13 @@ class Downloader {
   }
 
   async getAllMessages(token, roomId, settings) {
+    const { maxMessages, beforeDate } = settings;
     let all = [];
     let url = `${apiUrl}messages?roomId=${roomId}&max=1000`;
-    const { maxMessages } = settings;
+
+    if (beforeDate) {
+      url += `&before=${beforeDate}T23:59:59.000Z`;
+    }
 
     while(url) {
       const count = all.length;

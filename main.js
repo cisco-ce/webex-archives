@@ -14,6 +14,7 @@ const model = {
   settings: {
     maxMessages: 5000,
     maxFileSize: 10_000_000,
+    beforeDate: '',
     fileType: 'all', // all, image
     downloadFiles: false,
     downloadPeople: false,
