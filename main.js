@@ -55,8 +55,9 @@ const model = {
         await this.checkToken();
         this.findRooms();
       }
-      // this.setRoom(stored.roomId);
-
+      if (typeof idbKeyval !== 'undefined') {
+        this.folder = await idbKeyval.get('folder');
+      }
     }
     catch(e) {}
   },
@@ -142,6 +143,9 @@ const model = {
   async selectFolder() {
     try {
       this.folder = await window.showDirectoryPicker({ mode: 'readwrite' });
+      if (typeof idbKeyval !== 'undefined') {
+        idbKeyval.set('folder', this.folder);
+      }
     }
     catch {}
   },
