@@ -1,15 +1,8 @@
 # TODO
 
 * Proper introduction to what the app does
-* Clean one-page settings
-  * Layout (label, explanation, ui status)
-  * Button to verify token, room id
-  * Show user/token/folder when verified, and edit button
-* UI to select folder
-* Store token, at least in session
 * Ellipsis long file names in log
 * Options
-  * Option to set max messages
   * Option to set start/end date
   * Option to only save images
   * Option to limit file size downloads
@@ -22,7 +15,6 @@
 Fixes:
 * Use email instead of user ids. Better for logging etc
 * Handle too many requests better. wait and retry?
-* Log says done before avatars have been saved completely (and download looks to be frozen even though it is finished)
 
 * Proper progress bar when saving
 * Avoid js errors for avatars and files

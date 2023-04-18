@@ -258,7 +258,9 @@ class Downloader {
   }
 
   async saveAvatars(folder, people) {
-    people.forEach(async (person, n) => {
+    let n = 0;
+    for (const person of people) {
+      n++;
       const { avatar } = person;
       if (avatar) {
         const scaled = avatar.replace('~1600', '~110'); // possible: 80, 110, 640, ...
@@ -276,6 +278,6 @@ class Downloader {
           console.log('not able to save avatar', person.emails, scaled);
         }
       }
-    });
+    }
   }
 }
