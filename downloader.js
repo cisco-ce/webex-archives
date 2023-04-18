@@ -231,7 +231,10 @@ class Downloader {
           try {
             const { name, size, type } = await getFileInfo(token, url);
             const humanSize = toHumanSize(size);
-            if (size < settings.maxFileSize) {
+
+            const sizeOk = !settings.maxFileSize || (size < settings.maxFileSize);
+
+            if (sizeOk) {
               this.logger.log(`Fetching file ${count} / ${total}: ${name} (${humanSize})`);
               const file = await getFile(token, url);
               const blob = await file.blob();

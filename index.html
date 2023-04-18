@@ -125,10 +125,17 @@
       </div>
       <div>
         <label for="filesize">Max file size</label>
-        <select x-model="settings.maxFileSize" :disabled="!settings.downloadFiles" id="filesize">
+        <select x-model.number="settings.maxFileSize" :disabled="!settings.downloadFiles" id="filesize">
           <template x-for="size in filesizes">
             <option :value="size.bytes" x-text="size.name" :selected="settings.maxFileSize == size.bytes"></option>
           </template>
+        </select>
+      </div>
+      <div>
+        <label for="filetype">File type</label>
+        <select x-model="settings.fileType" :disabled="!settings.downloadFiles">
+          <option value="all">All</option>
+          <option value="images">Images</option>
         </select>
       </div>
     </div>

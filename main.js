@@ -12,6 +12,7 @@ const model = {
   settings: {
     maxMessages: 5000,
     maxFileSize: 10_000_000,
+    fileType: 'all',
     downloadFiles: false,
     downloadPeople: false,
   },
@@ -99,7 +100,7 @@ const model = {
 
     }
     catch(e) {
-      console.error('invalid token');
+      console.error('not able to check token');
       this.busy = false;
     }
   },
