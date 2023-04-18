@@ -1,16 +1,23 @@
 # TODO
 
+Downloader:
+
 * Proper introduction to what the app does
+* Show in-progress status
 * Options
   * Option to set start/end date
   * Option to link people data
   * Option to link people data
-* UI for selecting room from list
 * Show errors in log
 * Host on github pages
 * Add google analytics
 * Warn if space already exists in download folder
 
+Reader:
+
+* Show files much better (name, size) esp for non-images
+* Support linking instead of downloaded files
+* Support linking instead of downloaded avatars
 
 Fixes:
 * Use email instead of user ids. Better for logging etc

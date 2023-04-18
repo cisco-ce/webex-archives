@@ -5,6 +5,8 @@ const model = {
   token: '',
   user: null,
   rooms: [],
+  showRoomList: false,
+  roomFilter: '',
   roomId: '',
   currentRoom: '',
   folder: null,
@@ -50,11 +52,10 @@ const model = {
       this.setToken(stored.token);
       if (this.token) {
         await this.checkToken();
+        this.findRooms();
       }
-      this.setRoom(stored.roomId);
-      if (this.user && this.roomId) {
-        await this.checkRoom();
-      }
+      // this.setRoom(stored.roomId);
+
     }
     catch(e) {}
   },
@@ -108,9 +109,8 @@ const model = {
   async findRooms() {
     this.busy = 'Searching for rooms. This may take a while';
 
-    const token = this.token.trim();
     try {
-      const res = await getRooms(token);
+      const res = await getRooms(this.token);
       if (res.ok) {
         this.rooms = (await res.json()).items;
       }
@@ -121,7 +121,7 @@ const model = {
 
     }
     catch(e) {
-      console.log(e);
+      console.log("not able to fetch rooms", e.message);
       this.busy = false;
     }
   },
@@ -132,6 +132,8 @@ const model = {
 
   async setRoom(id) {
     this.roomId = id;
+    this.checkRoom();
+    this.showRoomList = false;
   },
 
   async selectFolder() {
@@ -141,9 +143,14 @@ const model = {
     catch {}
   },
 
+  get roomsFiltered() {
+    const { rooms, roomFilter } = this;
+    return rooms?.filter(r => r.title.toLowerCase().includes(roomFilter));
+  },
+
   async checkRoom() {
     this.currentRoom = null;
-    const token = this.token.trim();
+    const token = this.token;
     const roomId = fixId(this.roomId.trim());
     this.roomId = roomId;
 

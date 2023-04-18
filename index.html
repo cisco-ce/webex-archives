@@ -71,10 +71,14 @@
       <div x-show="!currentRoom">
         <textarea
           rows="3"
-          placeholder="Tip: Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
+          placeholder="Room id.
+Tip: Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
           x-model="roomId"
           data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
         ></textarea>
+      </div>
+      <div x-show="user && !currentRoom">
+        Or: <a href="" @click.prevent="showRoomList = true">Show room list</a>
       </div>
       <div x-show="currentRoom" class="selected-value">
         <div x-text="currentRoom?.title"></div>
@@ -86,7 +90,7 @@
           :disabled="busy || !user"
           @click="checkRoom()"
           x-show="!currentRoom"
-        >Next</button>
+        >Set</button>
         <button
           x-show="currentRoom"
           @click="currentRoom = null"
@@ -164,6 +168,10 @@
 
 </section>
 
+
+
+
+
 <!-- <section x-show="user && !currentRoom">
 
 </section>
@@ -212,6 +220,28 @@
   </div>
 
 </section> -->
+
+<div class="fade" x-show="showRoomList">
+  <div class="dialog">
+    <div>First 1000 rooms that user belongs to</div>
+    <div x-show="!rooms?.length">Loading rooms...</div>
+    <select
+      @change="setRoom($event.target.value)"
+      size="15"
+      x-show="rooms?.length > 0"
+    >
+      <template x-for="room in roomsFiltered">
+        <option :value="room.id" x-text="room.title"></option>
+      </template>
+    </select>
+    <input placeholder="Filter list" x-show="rooms?.length" x-model="roomFilter"/>
+    <div>
+      <a href="" @click.prevent="showRoomList = false">Close</a>
+    </div>
+  </div>
+</div>
+
+
 
 </main>
 
