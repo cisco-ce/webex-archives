@@ -4,7 +4,6 @@
 * Options
   * Option to set start/end date
   * Option to only save images
-  * Option to limit file size downloads
 * UI for selecting room from list
 * Show errors in log
 * Host on github pages

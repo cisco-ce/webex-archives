@@ -42,11 +42,17 @@ const model = {
     return typeof window.showDirectoryPicker === 'function';
   },
 
-  loadPrefs() {
+  async loadPrefs() {
     try {
       const stored = JSON.parse(localStorage.getItem('archiver-prefs'));
       this.setToken(stored.token);
+      if (this.token) {
+        await this.checkToken();
+      }
       this.setRoom(stored.roomId);
+      if (this.user && this.roomId) {
+        await this.checkRoom();
+      }
     }
     catch(e) {}
   },
