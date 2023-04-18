@@ -127,7 +127,7 @@
         <label for="filesize">Max file size</label>
         <select x-model="settings.maxFileSize" :disabled="!settings.downloadFiles" id="filesize">
           <template x-for="size in filesizes">
-            <option value="size.bytes" x-text="size.name" :selected="settings.maxFileSize == size.bytes"></option>
+            <option :value="size.bytes" x-text="size.name" :selected="settings.maxFileSize == size.bytes"></option>
           </template>
         </select>
       </div>

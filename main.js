@@ -17,6 +17,7 @@ const model = {
   },
   filesizes: [
     { bytes: 0, name: 'No limit' },
+    // { bytes: 1_000_000, name: '1 MB' },
     { bytes: 10_000_000, name: '10 MB' },
     { bytes: 50_000_000, name: '50 MB' },
     { bytes: 100_000_000, name: '100 MB' },
