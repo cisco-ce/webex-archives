@@ -132,11 +132,15 @@ class Downloader {
       await copyUrlToFile('./style.css', assets, 'style.css');
       await copyUrlToFile('./archive.html', folder, 'archive.html');
       await copyUrlToFile('https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js', assets, 'alpine.js');
+
+      const dir = `${root.name} > ${folder.name}`;
+      this.logger.log(`🎉 Done. The archive is now available in local folder: "${dir}".`);
     }
     catch(e) {
       console.warn(e);
+      this.logger.log('🚨 Something went wrong during download.');
     }
-    this.logger.log('🎉 Done. The archive is now available in the local folder you selected.');
+
   }
 
   async fetchMessages(roomId, settings) {

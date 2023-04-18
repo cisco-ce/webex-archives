@@ -3,11 +3,13 @@
 * Proper introduction to what the app does
 * Options
   * Option to set start/end date
-  * Option to only save images
+  * Option to link people data
+  * Option to link people data
 * UI for selecting room from list
 * Show errors in log
 * Host on github pages
 * Add google analytics
+* Warn if space already exists in download folder
 
 
 Fixes:
