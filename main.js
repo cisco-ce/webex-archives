@@ -18,6 +18,11 @@ const model = {
 
   init() {
     this.loadPrefs();
+    this.setTips();
+  },
+
+  setTips() {
+    tippy('[data-tippy-content]');
   },
 
   get compatible() {

@@ -7,7 +7,6 @@
   * Show user/token/folder when verified, and edit button
 * UI for selecting room from list
 * UI to select folder
-* Support more than 1000 messages (pagination)
 * Store token, at least in session
 * Ellipsis long file names in log
 * Options
@@ -16,6 +15,9 @@
   * Option to only save images
   * Option to limit file size downloads
 * Show errors in log
+* Host on github pages
+* Add google analytics
+
 
 Fixes:
 * Use email instead of user ids. Better for logging etc

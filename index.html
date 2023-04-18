@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Webex Archives</title>
   <link rel="stylesheet" href="./style.css"></link>
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js" defer></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" defer></script>
   <script src="./webex.js" defer></script>
   <script src="./logger.js" defer></script>
   <script src="./downloader.js" defer></script>
@@ -61,6 +63,7 @@
       rows="3"
       placeholder="Y2lzY29zcGFyazovL3VzL1J..."
       x-model="roomId"
+      data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
     ></textarea>
     <div x-text="currentRoom?.title"></div>
   </div>
