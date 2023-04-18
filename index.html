@@ -123,12 +123,20 @@
         <label>Download files</label>
         <input type="checkbox" x-model="settings.downloadFiles" />
       </div>
+      <div>
+        <label for="filesize">Max file size</label>
+        <select x-model="settings.maxFileSize" :disabled="!settings.downloadFiles" id="filesize">
+          <template x-for="size in filesizes">
+            <option value="size.bytes" x-text="size.name" :selected="settings.maxFileSize == size.bytes"></option>
+          </template>
+        </select>
+      </div>
     </div>
     <div class="box">
       <h2>People settings</h2>
       <div>
-        <label>Download people</label>
-        <input type="checkbox" x-model="settings.downloadPeople" />
+        <label for="downloadpeople">Download people</label>
+        <input id="downloadpeople" type="checkbox" x-model="settings.downloadPeople" />
       </div>
     </div>
   </div>

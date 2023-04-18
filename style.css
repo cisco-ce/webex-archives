@@ -112,12 +112,12 @@ button:hover:not(:disabled) {
   filter: brightness(0.9);
 }
 
-*:disabled, input:disabled+label {
+*:disabled, input:disabled+label, select:disabled+label {
   opacity: 0.5;
   cursor: auto;
 }
 
-input {
+input, select {
   background: #eee;
   border: 0;
   padding: 0.5em;

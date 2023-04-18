@@ -1,7 +1,6 @@
 # TODO
 
 * Proper introduction to what the app does
-* Ellipsis long file names in log
 * Options
   * Option to set start/end date
   * Option to only save images
@@ -19,6 +18,7 @@ Fixes:
 * Proper progress bar when saving
 * Avoid js errors for avatars and files
 * Show date headers in reader (per month?)
+* Ellipsis long file names in log
 * Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
 * Open images on top of page

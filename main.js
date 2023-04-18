@@ -15,6 +15,15 @@ const model = {
     downloadFiles: false,
     downloadPeople: false,
   },
+  filesizes: [
+    { bytes: 0, name: 'No limit' },
+    { bytes: 10_000_000, name: '10 MB' },
+    { bytes: 50_000_000, name: '50 MB' },
+    { bytes: 100_000_000, name: '100 MB' },
+    { bytes: 200_000_000, name: '200 MB' },
+    { bytes: 500_000_000, name: '500 MB' },
+    { bytes: 1_000_000_000, name: '1 GB' },
+  ],
   downloader: null,
   logger: null,
 
@@ -24,7 +33,9 @@ const model = {
   },
 
   setTips() {
-    tippy('[data-tippy-content]');
+    if (typeof tippy !== 'undefined') {
+      tippy('[data-tippy-content]');
+    }
   },
 
   get compatible() {
