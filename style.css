@@ -73,6 +73,10 @@ h1 {
   font-weight: normal;
 }
 
+section h1 {
+  color: inherit;
+}
+
 h2 {
   font-weight: normal;
   font-size: 18px;

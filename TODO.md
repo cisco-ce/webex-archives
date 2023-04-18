@@ -5,7 +5,6 @@ Downloader:
 * Proper introduction to what the app does
 * Show in-progress status
 * Options
-  * Option to set start/end date
   * Option to link people data
   * Option to link people data
 * Show errors in log
