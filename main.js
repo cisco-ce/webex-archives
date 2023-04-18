@@ -93,6 +93,7 @@ const model = {
       const res = await whoAmI(token);
       if (res.ok) {
         this.user = await res.json();
+        this.savePrefs();
       }
       else {
         alert('The current token does not seem to be valid. Perhaps it has expired?');

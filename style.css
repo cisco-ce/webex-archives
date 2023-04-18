@@ -52,7 +52,7 @@ body {
 
 .dialog select, .dialog input {
   background: #111;
-  color: #999;
+  color: white;
 }
 
 .dialog option {

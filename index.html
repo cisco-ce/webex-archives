@@ -168,62 +168,9 @@ Tip: Select the room in your Webex app and choose *Help > Copy Space Details* an
 
 </section>
 
-
-
-
-
-<!-- <section x-show="user && !currentRoom">
-
-</section>
-
-<section x-show="user && currentRoom">
-  <h2>Choose which data should be downloaded</h2>
-  <div>
-    Room: <i x-text="currentRoom?.title"></i>
-  </div>
-  <div class="form">
-    <div>
-      <input type="checkbox" disabled checked />
-      <label>Messages</label>
-    </div>
-    <div>
-      <input
-        id="saveFiles"
-        type="checkbox"
-        x-model="settings.downloadFiles"
-        :disabled="busy || !roomId"
-      />
-      <label
-        for="saveFiles"
-        :disabled="busy || !roomId"
-      >Files (images, attachments)</label>
-    </div>
-    <div>
-      <input
-        id="savePeople"
-        type="checkbox"
-        x-model="settings.downloadPeople"
-        :disabled="busy || !roomId"
-      />
-      <label
-        for="savePeople"
-        :disabled="busy || !roomId"
-      >People (avatars, names)</label>
-    </div>
-    <div>
-      <button @click="downloadRoom()" :disabled="busy || !roomId">Download</button>
-    </div>
-    <div class="box">
-    </div>
-
-  </div>
-  </div>
-
-</section> -->
-
 <div class="fade" x-show="showRoomList">
   <div class="dialog">
-    <div>First 1000 rooms that user belongs to</div>
+    <div x-show="rooms?.length">Most recent rooms</div>
     <div x-show="!rooms?.length">Loading rooms...</div>
     <select
       @change="setRoom($event.target.value)"
