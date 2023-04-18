@@ -7,8 +7,10 @@ const model = {
   rooms: [],
   roomId: '',
   currentRoom: '',
+  folder: null,
   busy: false,
   settings: {
+    maxMessages: 5000,
     maxFileSize: 10_000_000,
     downloadFiles: false,
     downloadPeople: false,
@@ -46,16 +48,11 @@ const model = {
     localStorage.setItem('archiver-prefs', JSON.stringify(data));
   },
 
-  async downloadRoom() {
+  async startDownload() {
     this.savePrefs();
     this.logger = new Logger();
-    this.downloader = await Downloader.create(this.token, this.logger);
+    this.downloader = new Downloader(this.folder, this.token, this.logger);
     const { downloader, currentRoom, settings } = this;
-
-    if (!this.downloader) {
-      alert('You must pick a directory to save an archive.');
-      return;
-    }
 
     this.busy = 'Starting download';
     await downloader.saveAll(currentRoom, settings);
@@ -116,6 +113,13 @@ const model = {
 
   async setRoom(id) {
     this.roomId = id;
+  },
+
+  async selectFolder() {
+    try {
+      this.folder = await window.showDirectoryPicker({ mode: 'readwrite' });
+    }
+    catch {}
   },
 
   async checkRoom() {

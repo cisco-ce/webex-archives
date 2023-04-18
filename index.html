@@ -33,43 +33,124 @@
   </div>
 </section>
 
-<section x-show="!user && compatible">
-  <h2>Provide your Webex Personal Access Token</h2>
-  <div>
-    <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find your token here</a>
+<section>
+  <div class="row">
+    <div class="box">
+      <h2>Webex User</h2>
+      <div x-show="!user">
+        <textarea
+          rows="3"
+          placeholder="Paste token here"
+          x-model="token"
+          @paste="checkToken()"
+        ></textarea>
+      </div>
+      <div x-show="!user">
+        <a href="https://developer.webex.com/docs/getting-started" target="_blank">Find your token here</a>
+      </div>
+      <div x-show="user" class="selected-value">
+        <img class="avatar" :src="user?.avatar"/>
+        <div x-text="user?.displayName"></div>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <button
+          @click="checkToken()"
+          :disabled="busy"
+          x-show="!user"
+        >Set</button>
+        <button
+          x-show="user"
+          @click="user = null; currentRoom = null;"
+        >Change</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Webex Room</h2>
+      <div x-show="!currentRoom">
+        <textarea
+          rows="3"
+          placeholder="Tip: Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
+          x-model="roomId"
+          data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
+        ></textarea>
+      </div>
+      <div x-show="currentRoom" class="selected-value">
+        <div x-text="currentRoom?.title"></div>
+      </div>
+
+      <div class="spacer"></div>
+      <div>
+        <button
+          :disabled="busy || !user"
+          @click="checkRoom()"
+          x-show="!currentRoom"
+        >Next</button>
+        <button
+          x-show="currentRoom"
+          @click="currentRoom = null"
+        >Change</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Local folder</h2>
+      <div x-show="!folder">Select where you want to store the space on your local disk.</div>
+      <div x-show="folder" class="selected-value">
+        <div x-text="folder?.name"></div>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <button @click="selectFolder()">Select</button>
+      </div>
+    </div>
   </div>
-  <div>
-    <textarea
-      rows="3"
-      placeholder="Paste token here"
-      x-model="token"
-      @paste="checkToken()"
-    ></textarea>
-    <div x-text="user?.displayName"></div>
+
+  <hr />
+
+  <div class="row">
+    <div class="box">
+      <h2>Message settings</h2>
+      <div>
+        <label>Max messages</label>
+        <input type="number" x-model="settings.maxMessages" />
+      </div>
+    </div>
+    <div class="box">
+      <h2>File settings</h2>
+      <div>
+        <label>Download files</label>
+        <input type="checkbox" x-model="settings.downloadFiles" />
+      </div>
+    </div>
+    <div class="box">
+      <h2>People settings</h2>
+      <div>
+        <label>Download people</label>
+        <input type="checkbox" x-model="settings.downloadPeople" />
+      </div>
+    </div>
   </div>
-  <div>
-    <button @click="checkToken()">Next</button>
+
+  <hr />
+
+  <div class="row">
+    <div class="logger">
+      <i x-text="logger?.last?.text"></i>
+    </div>
+    <div class="spacer"></div>
+    <button
+      class="primary"
+      @click="startDownload()"
+      :disabled="!(user && currentRoom && folder)"
+    >Start Download</button>
   </div>
 
 </section>
 
-<section x-show="user && !currentRoom">
-  <h2>Select room to download</h2>
-  <div>
-    Tip: Select the room in your Webex app and select <i>Help > Copy Space Details</i> and paste here.
-  </div>
-  <div>
-    <textarea
-      rows="3"
-      placeholder="Y2lzY29zcGFyazovL3VzL1J..."
-      x-model="roomId"
-      data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
-    ></textarea>
-    <div x-text="currentRoom?.title"></div>
-  </div>
-  <div>
-    <button @click="checkRoom()">Next</button>
-  </div>
+<!-- <section x-show="user && !currentRoom">
+
 </section>
 
 <section x-show="user && currentRoom">
@@ -109,27 +190,13 @@
     <div>
       <button @click="downloadRoom()" :disabled="busy || !roomId">Download</button>
     </div>
-    <div class="logger">
-      Log: <i x-text="logger?.last?.text"></i>
+    <div class="box">
     </div>
-    </div>
+
+  </div>
   </div>
 
-</section>
-
-<section x-show="false">
-  Rooms
-  <div>
-    <button @click="findRooms()" :disabled="busy || !token">Find rooms</button>
-  </div>
-  <template x-for="room in rooms">
-    <div class="room" @click="setRoom(room.id)">
-      <span x-text="room.type === 'group' ? '👥' : '👤' "></span>
-      <span x-text="room.title"></span>
-    </div>
-  </template>
-</section>
-
+</section> -->
 
 </main>
 

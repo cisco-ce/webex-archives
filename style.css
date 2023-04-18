@@ -36,12 +36,10 @@ h1 {
 
 h2 {
   font-weight: normal;
+  font-size: 18px;
 }
 
 section {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
   padding: 2em;
   background-color: white;
   border: 1px solid #ddd;
@@ -49,17 +47,35 @@ section {
   box-shadow: 0 2px 8px rgb(0 0 0 / 33%);
 }
 
-.cols {
+section .row {
   display: flex;
-  gap: 1em;
-  align-items: center;
-  margin: 1em;
+  gap: 2em;
+  margin-bottom: 1em;
 }
 
-.cols > * {
-  width: 0;
-  width: 40vw;
+.action-row {
+  text-align: center;
+}
+
+.spacer {
   flex-grow: 1;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  /* ensure boxes are the same width */
+  width: 0;
+  flex-grow: 1;
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background-color: #eee;
+  margin: 1em 0;
 }
 
 a {
@@ -75,20 +91,25 @@ textarea {
   border: 0px;
   padding: 10px;
   resize: none;
-  width: 30em;
+  width: 100%;
 }
 
 button {
   cursor: pointer;
   border-radius: 30px;
-  padding: 15px 25px;
-  background-color: #1abc9c;
+  padding: 10px 25px;
   border: 0;
+  border: 1px solid black;
+}
+
+button.primary {
+  background-color: #1abc9c;
   color: white;
+  border: 0;
 }
 
 button:hover:not(:disabled) {
-  background-color: #149e83;
+  filter: brightness(0.9);
 }
 
 *:disabled, input:disabled+label {
@@ -152,6 +173,13 @@ button:hover:not(:disabled) {
   width: 25px;
   height: 25px;
   border-radius: 25px;
+}
+
+.selected-value {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  gap: 1em;
 }
 
 /* only applied if image is broken. css hack */

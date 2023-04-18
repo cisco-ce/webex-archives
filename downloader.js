@@ -88,18 +88,6 @@ class Downloader {
     this.logger = logger;
   }
 
-  static async create(token, logger) {
-    try {
-      const root = await window.showDirectoryPicker({ mode: 'readwrite' });
-      console.log('got access to', root.name);
-      return new Downloader(root, token, logger);
-    }
-    catch(e) {
-      console.log('Not able to set root folder');
-      return false;
-    }
-  }
-
   safeFileName(name) {
     return name.replaceAll(' ', '_').replace(/\W/g, '_');
   }
