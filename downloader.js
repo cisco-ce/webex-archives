@@ -232,10 +232,12 @@ class Downloader {
             const { name, size, type } = await getFileInfo(token, url);
             const humanSize = toHumanSize(size);
 
+            const contentType = type.split('/').shift();
+            const typeOk = settings.fileType === 'all' || settings.fileType === contentType;
             const sizeOk = !settings.maxFileSize || (size < settings.maxFileSize);
 
-            if (sizeOk) {
-              this.logger.log(`Fetching file ${count} / ${total}: ${name} (${humanSize})`);
+            if (typeOk && sizeOk) {
+              this.logger.log(`Fetching file ${count} / ${total}: ${name} (${type} / ${humanSize})`);
               const file = await getFile(token, url);
               const blob = await file.blob();
               const localName = uniqueFileName(name);
@@ -248,7 +250,7 @@ class Downloader {
               }
             }
             else {
-              console.log('skip file', name, 'too large');
+              console.log('skip file', name, 'too large or wrong type');
             }
           }
           catch(e) {
