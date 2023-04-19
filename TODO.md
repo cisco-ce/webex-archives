@@ -22,7 +22,6 @@ Reader:
 * Support linking instead of downloaded avatars
 
 
-* Proper progress bar when saving
 * Avoid js errors for avatars and files
 * Show date headers in reader (per month?)
 * Ellipsis long file names in log

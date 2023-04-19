@@ -78,7 +78,7 @@
         ></textarea>
       </div>
       <div x-show="user && !currentRoom">
-        Or: <a href="" @click.prevent="showRoomList = true">Show room list</a>
+        Or: <a href="" @click.prevent="showRoomList = true;findRooms();">Show room list</a>
       </div>
       <div x-show="currentRoom" class="selected-value">
         <div x-text="'💬 ' + currentRoom?.title"></div>
