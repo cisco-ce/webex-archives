@@ -122,8 +122,12 @@ section .row:last-of-type {
   display: inline-block;
 }
 
-.box input {
+.box input, .box select {
   width: 50%;
+}
+
+.box input[type='checkbox'] {
+  width: unset;
 }
 
 hr {
