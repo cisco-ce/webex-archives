@@ -72,8 +72,7 @@
       <div x-show="!currentRoom">
         <textarea
           rows="3"
-          placeholder="Room id.
-Tip: Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
+          placeholder="Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
           x-model="roomId"
           data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
         ></textarea>
@@ -179,7 +178,7 @@ Tip: Select the room in your Webex app and choose *Help > Copy Space Details* an
     <div x-show="!rooms?.length">Loading rooms...</div>
     <select
       @change="setRoom($event.target.value)"
-      size="15"
+      size="10"
       x-show="rooms?.length > 0"
     >
       <template x-for="room in roomsFiltered">
