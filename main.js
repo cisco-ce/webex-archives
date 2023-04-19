@@ -115,8 +115,6 @@ const model = {
   },
 
   async findRooms() {
-    this.busy = 'Searching for rooms. This may take a while';
-
     try {
       const res = await getRooms(this.token);
       if (res.ok) {
@@ -125,12 +123,10 @@ const model = {
       else {
         console.warn('not able to find rooms', await res.text());
       }
-      this.busy = false;
 
     }
     catch(e) {
       console.log("not able to fetch rooms", e.message);
-      this.busy = false;
     }
   },
 
