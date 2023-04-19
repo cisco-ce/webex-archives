@@ -60,6 +60,7 @@ const model = {
         this.roomId = stored.roomId;
         await this.checkRoom();
       }
+      this.settings = Object.assign(this.settings, stored.settings);
     }
     catch(e) {}
   },
@@ -68,6 +69,7 @@ const model = {
     const data = {
       token: this.token,
       roomId: this.roomId,
+      settings: this.settings,
     };
     localStorage.setItem('archiver-prefs', JSON.stringify(data));
   },
