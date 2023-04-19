@@ -153,6 +153,8 @@ class Downloader {
       return conversations;
     }
     catch(e) {
+      // TODO: This means the whole download failed. must be flagged
+      this.logger.error('Something went wrong while downloading messages');
       console.log(e);
       return [];
     }

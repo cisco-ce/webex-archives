@@ -12,15 +12,17 @@ Downloader:
 * Add google analytics
 * Warn if space already exists in download folder
 
+Fixes:
+* Use email instead of user ids. Better for logging etc
+* Handle too many requests better. wait and retry?
+* Show error when not verified token/room id
+
 Reader:
 
 * Show files much better (name, size) esp for non-images
 * Support linking instead of downloaded files
 * Support linking instead of downloaded avatars
 
-Fixes:
-* Use email instead of user ids. Better for logging etc
-* Handle too many requests better. wait and retry?
 
 * Proper progress bar when saving
 * Avoid js errors for avatars and files
