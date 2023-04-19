@@ -40,7 +40,7 @@
       <h2>Webex User</h2>
       <div x-show="!user">
         <textarea
-          rows="3"
+          rows="4"
           placeholder="Paste token here"
           x-model="token"
           @paste="checkToken()"
@@ -71,9 +71,10 @@
       <h2>Webex Room</h2>
       <div x-show="!currentRoom">
         <textarea
-          rows="3"
+          rows="4"
           placeholder="Select the room in your Webex app and choose *Help > Copy Space Details* and paste here."
           x-model="roomId"
+          @paste.prevent="pasteRoom($event.clipboardData.getData('text'))"
           data-tippy-content="In the Webex client, find the space you want and use Help > Copy Space Details, then paste here."
         ></textarea>
       </div>

@@ -110,6 +110,10 @@ const model = {
     }
   },
 
+  pasteRoom(text) {
+    this.roomId = fixId(text);
+  },
+
   async findRooms() {
     this.busy = 'Searching for rooms. This may take a while';
 
