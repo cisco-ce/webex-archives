@@ -56,6 +56,10 @@ const model = {
         await this.checkToken();
         this.findRooms();
       }
+      if (stored.roomId) {
+        this.roomId = stored.roomId;
+        await this.checkRoom();
+      }
     }
     catch(e) {}
   },
@@ -114,6 +118,8 @@ const model = {
   },
 
   async findRooms() {
+    if (!this.user) return;
+
     try {
       const res = await getRooms(this.token);
       if (res.ok) {
@@ -165,6 +171,7 @@ const model = {
       const res = await getRoomDetails(token, roomId);
       if (res.ok) {
         this.currentRoom = await res.json();
+        this.savePrefs();
       }
       else {
         console.warn(await res.text());
