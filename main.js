@@ -1,5 +1,4 @@
 
-
 const model = {
 
   token: '',
@@ -11,6 +10,8 @@ const model = {
   currentRoom: '',
   folder: null,
   busy: false,
+  downloading: false,
+  showDownloading: false,
   settings: {
     maxMessages: 5000,
     maxFileSize: 10_000_000,
@@ -76,9 +77,10 @@ const model = {
     this.downloader = new Downloader(this.folder, this.token, this.logger);
     const { downloader, currentRoom, settings } = this;
 
-    this.busy = 'Starting download';
+    this.downloading = true;
+    this.showDownloading = true;
     await downloader.saveAll(currentRoom, settings);
-    this.busy = false;
+    this.downloading = false;
   },
 
   async checkToken() {
@@ -99,7 +101,6 @@ const model = {
       }
       else {
         alert('The current token does not seem to be valid. Perhaps it has expired?');
-        // console.warn('not able to use token', await res.text());
       }
       this.busy = false;
 
@@ -112,6 +113,7 @@ const model = {
 
   pasteRoom(text) {
     this.roomId = fixId(text);
+    this.checkRoom();
   },
 
   async findRooms() {
@@ -161,7 +163,6 @@ const model = {
     const roomId = fixId(this.roomId.trim());
     this.roomId = roomId;
 
-    // console.log('fetch room', this.roomId);
     if (!roomId || !token) return;
 
     this.busy = 'Verifying room id';

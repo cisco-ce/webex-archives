@@ -88,7 +88,7 @@
       <div class="spacer"></div>
       <div>
         <button
-          :disabled="busy || !user"
+          :disabled="busy || !user || roomId.trim().length !== 76"
           @click="checkRoom()"
           x-show="!currentRoom"
         >Set</button>
@@ -160,10 +160,6 @@
   <hr />
 
   <div class="row">
-    <div class="logger">
-      <i x-text="logger?.last?.text"></i>
-    </div>
-    <div class="spacer"></div>
     <button
       class="primary"
       @click="startDownload()"
@@ -193,7 +189,17 @@
   </div>
 </div>
 
-
+<div class="fade" x-show="showDownloading">
+  <div class="dialog">
+    <h2>Downloading...</h2>
+    <div class="logger">
+      <i x-text="logger?.last?.text"></i>
+    </div>
+    <div>
+      <a href="" @click.prevent="showDownloading = false" x-show="!downloading">Close</a>
+    </div>
+  </div>
+</div>
 
 </main>
 
