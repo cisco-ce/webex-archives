@@ -157,6 +157,10 @@ const model = {
     return rooms?.filter(r => r.title.toLowerCase().includes(roomFilter));
   },
 
+  get readyToDownload() {
+    return this.user && !!this.currentRoom && this.folder;
+  },
+
   async checkRoom() {
     this.currentRoom = null;
     const token = this.token;

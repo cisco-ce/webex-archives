@@ -89,6 +89,14 @@ section .row {
   gap: 2em;
   margin-bottom: 1em;
   justify-content: center;
+  padding-bottom: 1em;
+  border-bottom: 2px solid #eee;
+}
+
+section .row:last-of-type {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .action-row {
