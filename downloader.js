@@ -92,6 +92,17 @@ class Downloader {
     return name.replaceAll(' ', '_').replace(/\W/g, '_');
   }
 
+  async spaceAlreadyExists(folder, room) {
+    const folderName = this.safeFileName(room.title);
+    try {
+      const dir = await folder.getDirectoryHandle(folderName, { create: false });
+      return true;
+    }
+    catch {
+      return false;
+    }
+  }
+
   async saveAll(room, settings) {
     const conversations = await this.fetchMessages(room.id, settings);
 

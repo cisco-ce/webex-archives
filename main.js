@@ -80,6 +80,16 @@ const model = {
     this.downloader = new Downloader(this.folder, this.token, this.logger);
     const { downloader, currentRoom, settings } = this;
 
+    const alreadyExists = await this.downloader.spaceAlreadyExists(this.folder, currentRoom);
+    if (alreadyExists) {
+      const msg = `The folder "${this.folder.name}" already contains an archive for the selected space. Do you want to overwrite it?`;
+      const overwrite = confirm(msg);
+      if (!overwrite) {
+        return;
+      }
+    }
+
+
     this.downloading = true;
     this.showDownloading = true;
     await downloader.saveAll(currentRoom, settings);
