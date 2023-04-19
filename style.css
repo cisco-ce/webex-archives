@@ -187,6 +187,10 @@ select option {
   background-color: #eee;
 }
 
+.dialog.download {
+  width: 60vw;
+}
+
 .message {
   border-radius: 1em;
   padding: 1em;
