@@ -1,4 +1,3 @@
-
 const model = {
 
   token: '',
@@ -12,6 +11,7 @@ const model = {
   busy: false,
   downloading: false,
   showDownloading: false,
+  showLogList: false,
   settings: {
     maxMessages: 5000,
     maxFileSize: 10_000_000,
@@ -195,7 +195,7 @@ const model = {
       this.busy = false;
     }
     catch(e) {
-      console.log(e);
+      console.log(e.message);
       this.busy = false;
     }
   }

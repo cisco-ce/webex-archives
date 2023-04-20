@@ -208,6 +208,20 @@
     <div class="logger">
       <i x-text="logger?.last?.text"></i>
     </div>
+    <a href="" @click.prevent="showLogList = !showLogList">Toggle full log</a>
+    <div class="log-list" x-show="showLogList">
+      <template x-for="entry in logger?.entries">
+        <div
+          class="log-entry"
+          :class="entry.type"
+        >
+        <span x-text="entry.time"></span>
+        <span
+          x-text="entry.text"
+        ></span>
+      </div>
+      </template>
+    </div>
     <div>
       <a href="" @click.prevent="showDownloading = false" x-show="!downloading">Close</a>
     </div>

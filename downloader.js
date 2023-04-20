@@ -146,7 +146,9 @@ class Downloader {
 
       const messageCount = conversations.flat().length;
       const dir = `${root.name} > ${folder.name}`;
-      this.logger.log(`🎉 Saved ${messageCount} messages. The archive is now available in local folder: "${dir}".`);
+      const errorCount = this.logger.errors.length;
+      const errors = errorCount ? `There were ${errorCount} errors.` : '';
+      this.logger.log(`🎉 Saved ${messageCount} messages. The archive is now available in local folder: "${dir}". ${errors}`);
     }
     catch(e) {
       console.warn(e);
@@ -219,11 +221,12 @@ class Downloader {
           console.log('fetched', people.length, '/', ids.size, person.displayName);
         }
         else {
-          this.logger.error('Not able to fetch person ' + await res.text());
+          this.logger.error('Not able to fetch person');
           console.warn('not able to fetch', id);
         }
       }
       catch(e) {
+        this.logger.error('Not able to feth person ' + id);
         console.log('error fetching', id);
       }
 
@@ -272,7 +275,8 @@ class Downloader {
               }
             }
             else {
-              console.log('skip file', name, 'too large or wrong type');
+
+              this.logger.warn(`Skip file ${name}: too large or wrong type`);
             }
           }
           catch(e) {
@@ -302,7 +306,7 @@ class Downloader {
           console.log('Saved avatar', n + 1, '/', people.length);
         }
         catch(e) {
-          console.log('not able to save avatar', person.emails, scaled);
+          this.logger.error('Not able to save avatar for', person.emails?.[0]);
         }
       }
     }
