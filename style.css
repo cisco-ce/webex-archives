@@ -224,7 +224,7 @@ select option {
 }
 
 .log-list .error {
-  color: red;
+  color: rgb(149, 0, 0);
 }
 
 .message {

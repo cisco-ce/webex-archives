@@ -208,31 +208,38 @@ class Downloader {
   }
 
   async fetchPeople(conversations) {
-    const ids = new Set(conversations.flat().map(c => c.personId));
+    // TODO: its possible to list up to 85 people with one api call using
+    // https://developer.webex.com/docs/api/v1/people/list-people, instead of 1 by 1
+
+    const persons = {};
+    conversations.flat().forEach(c => {
+      persons[c.personId] = c.personEmail;
+    });
+
     const people = [];
-    for (const id of ids) {
+    const total = Object.keys(persons).length
+
+    for (const id in persons) {
+      const email = persons[id];
+
       try {
         const res = await getPerson(this.token, id);
         if (res.ok) {
           const person = await res.json();
           people.push(person);
           const count = people.length;
-          this.logger.log(`Fetching person ${count} / ${ids.size}`);
-          console.log('fetched', people.length, '/', ids.size, person.displayName);
+          this.logger.log(`Fetching person ${email} ${count} / ${total}`);
         }
         else {
-          this.logger.error('Not able to fetch person');
-          console.warn('not able to fetch', id);
+          this.logger.error(`Not able to fetch person ${email}`);
         }
       }
       catch(e) {
-        this.logger.error('Not able to feth person ' + id);
-        console.log('error fetching', id);
+        this.logger.error('Not able to fetch person ' + email);
       }
 
       await sleep(1000);
     }
-    console.log('done fetching people');
 
     return people;
   }
