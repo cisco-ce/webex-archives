@@ -61,10 +61,18 @@ option:hover {
   background-color: #ddd;
 }
 
-h1 {
+h1, h3 {
   color: white;
   text-align: center;
   font-weight: normal;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.1em;
 }
 
 section h1 {
