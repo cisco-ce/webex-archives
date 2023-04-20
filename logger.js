@@ -10,7 +10,7 @@ class Logger {
   }
 
   log(text) {
-    console.log(text);
+    console.debug(text);
     this.entry('log', text);
   }
 
