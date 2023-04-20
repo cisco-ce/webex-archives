@@ -283,3 +283,9 @@ select option {
 pre {
   overflow-x: auto;
 }
+
+footer {
+  text-align: center;
+  font-size: 0.8em;
+  color: white;
+}
