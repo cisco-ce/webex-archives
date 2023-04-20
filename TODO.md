@@ -6,12 +6,8 @@ Downloader:
 * Options
   * Option to link people data
   * Option to link people data
-* Show errors in log
-* Host on github pages
-* Add google analytics
 
 Fixes:
-* Use email instead of user ids. Better for logging etc
 * Handle too many requests better. wait and retry?
 * Show error when not verified token/room id
 
@@ -24,15 +20,14 @@ Reader:
 
 * Avoid js errors for avatars and files
 * Show date headers in reader (per month?)
-* Ellipsis long file names in log
 * Sort order for messages (newest on top, oldest on top)
 * Possible to stop / cancel download
-* Open images on top of page
 * Show initials and random color if missing avatar
-* Remember preference settings too
-* Log of what was downloaded / not downloaded
-* Warn about missing support for cards (or is fallback good enough?)
+
+Later
+
 * Cache people too, to avoid so much re-downloading
+* Open images on top of page
 
 Documentation
 
@@ -40,10 +35,6 @@ Documentation
 * Security aspects
 * Not supported:
   * Reactions, group space avatars, cards
-
-
-Ski room:
-Y2lzY29zcGFyazovL3VzL1JPT00vYTE1YjMwODAtYTYxNy0xMWVkLWEwMGItMWRjYzg4YTNmNTRk
 
 
 ## API Feedback
