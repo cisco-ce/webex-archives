@@ -144,8 +144,9 @@ class Downloader {
       await copyUrlToFile('./archive.html', folder, 'archive.html');
       await copyUrlToFile('https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js', assets, 'alpine.js');
 
+      const messageCount = conversations.flat().length;
       const dir = `${root.name} > ${folder.name}`;
-      this.logger.log(`🎉 Done. The archive is now available in local folder: "${dir}".`);
+      this.logger.log(`🎉 Saved ${messageCount} messages. The archive is now available in local folder: "${dir}".`);
     }
     catch(e) {
       console.warn(e);
