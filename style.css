@@ -202,7 +202,7 @@ select option {
 .message {
   border-radius: 1em;
   padding: 1em;
-  background: #ddd;
+  background: #f1f1f1;
   margin-top: 0.5em;
 }
 
