@@ -44,6 +44,12 @@ function getPerson(token, id) {
   return webex(url, token);
 }
 
+function getPeople(token, ids) {
+  const list = ids.join(',');
+  const url = `${apiUrl}people/?id=${list}`;
+  return webex(url, token);
+}
+
 function getRooms(token) {
   const url = `${apiUrl}rooms?max=1000&sortBy=lastactivity`;
   return webex(url, token);

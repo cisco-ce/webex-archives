@@ -208,37 +208,29 @@ class Downloader {
   }
 
   async fetchPeople(conversations) {
-    // TODO: its possible to list up to 85 people with one api call using
-    // https://developer.webex.com/docs/api/v1/people/list-people, instead of 1 by 1
+    const allIds = conversations
+      .flat()
+      .map(p => p.personId)
+      .filter(i => i);
 
-    const persons = {};
-    conversations.flat().forEach(c => {
-      persons[c.personId] = c.personEmail;
-    });
+    const ids = Array.from(new Set(allIds));
 
-    const people = [];
-    const total = Object.keys(persons).length
+    const total = ids.length;
+    const pageSize = 70;
 
-    for (const id in persons) {
-      const email = persons[id];
-
+    let people = [];
+    for (let i = 0; i < total; i += pageSize) {
+      const params = ids.slice(i, i + pageSize);
+      this.logger.log(`Fetching person data ${i + 1} - ${i + params.length} / ${total}`);
       try {
-        const res = await getPerson(this.token, id);
-        if (res.ok) {
-          const person = await res.json();
-          people.push(person);
-          const count = people.length;
-          this.logger.log(`Fetching person ${email} ${count} / ${total}`);
-        }
-        else {
-          this.logger.error(`Not able to fetch person ${email}`);
-        }
+        const all = await getPeople(this.token, params);
+        const json = await all.json();
+        people = people.concat(json.items);
+        await sleep(1000);
       }
       catch(e) {
-        this.logger.error('Not able to fetch person ' + email);
+        this.logger.error(`Not able to fetch people ${i + 1} - ${i + params.length}`);
       }
-
-      await sleep(1000);
     }
 
     return people;
@@ -310,10 +302,10 @@ class Downloader {
 
           this.logger.log(`Downloading avatar ${n + 1} / ${people.length}: ${name}`);
           await saveFile(folder, fileName, blob);
-          console.log('Saved avatar', n + 1, '/', people.length);
         }
         catch(e) {
-          this.logger.error('Not able to save avatar for', person.emails?.[0]);
+          const msg = `Not able to save avatar for ${person.displayName} ${person.emails?.[0]}`;
+          this.logger.error(msg);
         }
       }
     }
