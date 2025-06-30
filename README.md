@@ -1,5 +1,7 @@
 # Webex Archives
 
+![Cover image](./cover.png)
+
 [Use it online](https://cisco-ce.github.io/webex-archives/)
 
 Simple web service (client only) for downloading Webex chat spaces to your local hard drive.
